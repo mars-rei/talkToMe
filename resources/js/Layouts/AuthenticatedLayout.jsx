@@ -1,3 +1,5 @@
+// last updated on 26/03 by mars
+
 import Dropdown from '@/Components/Dropdown';
 import { Link, usePage } from '@inertiajs/react';
 
@@ -7,12 +9,12 @@ export default function AuthenticatedLayout({ children }) {
     return (
         <div className="min-h-screen">
             <nav>
-                <div className="bg-[#ebfff2] flex justify-between items-center px-4 border-b border-[#c6c6c6] h-16">
-                    <Link href="/dashboard" className="text-[#003c66] hover:text-[#B5446E] font-fustat-extrabold text-3xl">
+                <div className="flex justify-between items-center px-4 h-16">
+                    <Link href="/dashboard" className="text-3xl">
                         TalkToMe
                     </Link>
 
-                    <div className="flex items-center text-[#1f1f1f] space-x-4 font-fustat-bold text-xl">
+                    <div className="flex items-center space-x-4 text-xl">
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
                             <div className="relative ms-3">
@@ -21,9 +23,8 @@ export default function AuthenticatedLayout({ children }) {
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="hover:text-[#B5446E]"
                                             >
-                                                <i className="fa fa-circle-user text-[#B5446E] fa-xl mr-2"></i>
+                                                <i className="fa fa-circle-user fa-xl mr-2"></i>
                                                 {user.name}
                                             </button>
                                         </span>
