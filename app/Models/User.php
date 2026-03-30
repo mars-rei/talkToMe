@@ -1,5 +1,7 @@
 <?php
 
+# last updated on 30/03 by mars
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -44,5 +46,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // a user can have many journals
+    public function journals()
+    {
+        return $this->hasMany(Journal::class);
     }
 }

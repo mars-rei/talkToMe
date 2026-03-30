@@ -1,11 +1,13 @@
-// last updated on 29/03 by valeria
+// last updated on 30/03 by mars
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function Dashboard() {
-
+    // to get user's name
+    const user = usePage().props.auth.user;
+    
     // default state is journals
     const [activeView, setActiveView] = useState('journals');
 
@@ -82,15 +84,10 @@ export default function Dashboard() {
                         {activeView === 'journals' && (
                             <>
                                 <div>
-                                    <h1 className="text-3xl font-bold">Welcome Back, Name</h1> {/* need to add user name */}
+                                    <h1 className="text-3xl font-bold">Welcome Back, {user.name}</h1> {/* need to add user name */}
                                     <p className='mb-2 text-xl mt-2 text-gray-600'>
                                         How are you feeling today?
                                     </p>
-                                </div>
-                                <div className="overflow-hidden bg-gray-100 shadow-sm sm:rounded-lg">
-                                    <div className="p-6 text-gray-900">
-                                        You're logged in! This is the dashboard!! :3
-                                    </div>
                                 </div>
                             </>
                         )}
