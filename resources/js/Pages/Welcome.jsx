@@ -22,7 +22,7 @@ export default function Welcome() {
                         </div>
                     </div>
                     <footer className="py-16 text-center text-sm">
-                        Group 30 - Last updated 30/03/26 by Valeria
+                        Group 30 - Last updated 30/03/26 by Mars
                     </footer>
                 </div>
             </Layout> 
