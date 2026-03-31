@@ -1,4 +1,4 @@
-// last updated on 30/03 by mars
+// last updated on 31/03 by mars
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -9,18 +9,27 @@ import CreateJournalModal from '@/Components/Journals/CreateJournalModal';
 import EditJournalModal from '@/Components/Journals/EditJournalModal';
 import DeleteJournalModal from '@/Components/Journals/DeleteJournalModal';
 
+// development
+import Developments from '@/Layouts/Developments/Index';
+import ShowDevelopmentModal from '@/Components/Developments/ShowDevelopmentModal';
+import CreateDevelopmentModal from '@/Components/Developments/CreateDevelopmentModal';
+import DeleteDevelopmentModal from '@/Components/Developments/DeleteDevelopmentModal';
+
 import { router } from '@inertiajs/react';
 import { Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 export default function Dashboard() {
     // all the user's journals and entries
-    const { journals: journals, entries: entries } = usePage().props;
+    const { journals: journals, entries: entries, developments: developments } = usePage().props;
 
     // to get user's name
     const user = usePage().props.auth.user;
     
-    // default state is journals
+    // for changing states - default state is journals
+    const handleViewChange = (view) => {
+        setActiveView(view);
+    };
     const [activeView, setActiveView] = useState('journals');
     
     // for single journal views
@@ -42,6 +51,14 @@ export default function Dashboard() {
     const [showShowEntryModal, setShowShowEntryModal] = useState(false);
     const [showDeleteEntryModal, setShowDeleteEntryModal] = useState(false);
     const [selectedEntry, setSelectedEntry] = useState(null);
+
+    // development modal states
+    const [showCreateDevelopmentModal, setShowCreateDevelopmentModal] = useState(false);
+    const [showShowDevelopmentModal, setShowShowDevelopmentModal] = useState(false);
+    const [showDeleteDevelopmentModal, setShowDeleteDevelopmentModal] = useState(false);
+    const [selectedDevelopment, setSelectedDevelopment] = useState(null);
+    const [developmentToDelete, setDevelopmentToDelete] = useState(null);
+
 
     // journal handlers
     const handleJournalClick = (journal) => {
@@ -75,11 +92,22 @@ export default function Dashboard() {
     };
 
     const handleDeleteEntryClick = (entry) => {
-        setSelectedEntry(media);
+        setSelectedEntry(media); {/*is this wrong?*/}
         setShowDeleteEntryModal(true);
         setShowShowEntryModal(false);
     };
 
+    // development handlers
+    const handleDevelopmentClick = (development) => {
+        setSelectedDevelopment(development);
+        setShowShowDevelopmentModal(true);
+    };
+
+    const handleDeleteDevelopmentClick = (development) => {
+        setDevelopmentToDelete(development);
+        setShowDeleteDevelopmentModal(true);
+        setShowShowDevelopmentModal(false);
+    };
 
     const handleCloseModals = () => {
         // journal modals
@@ -96,33 +124,21 @@ export default function Dashboard() {
         setShowDeleteEntryModal(false);
         setSelectedEntry(null);
         setJournalEntryId(null);
-    };
 
-    
-
-    /*
-    // single views
-    const [selectedPost, setSelectedPost] = useState(null);
-    const [selectedNote, setSelectedNote] = useState(null);
-    
-    // handlers
-    const handleWallPostClick = (post) => {
-        setSelectedPost(post);
-    };
-
-    const handleNoteClick = (note) => {
-        setSelectedNote(note);
-    };
-    */
-
-    const handleViewChange = (view) => {
-        setActiveView(view);
+        // development modals
+        setShowCreateDevelopmentModal(false);
+        setShowDeleteDevelopmentModal(false);
+        setDevelopmentToDelete(null);
+        setSelectedDevelopment(null);
     };
 
     // success handlers 
     const handleJournalCreated = () => { router.reload(); };
     const handleJournalUpdated = () => { router.reload(); handleCloseModals(); };
     const handleJournalDeleted = () => { router.reload(); handleCloseModals(); };
+
+    const handleDevelopmentCreated = () => { router.reload(); };
+    const handleDevelopmentDeleted = () => { router.reload(); handleCloseModals(); };
 
     return (
         <AuthenticatedLayout
@@ -228,27 +244,17 @@ export default function Dashboard() {
 
                         {/* Growth Notes  */}
                         {activeView === 'growthNotes' && (
-                            <div>
-                                <h1 className="text-2xl font-bold">Notes</h1>
-                            </div>
-                        )}
-                        {/*{activeView === 'growthNotes' && (
                             <>
-                                {selectedNote ? (
-                                    <GrowthNotesShow
-                                        note={selectedNote}
-                                        onEdit={handleShowEditNote}
-                                        onDelete={handleDeleteNote}
-                                    />
-                                ) : (
-                                    <GrowthNotes
-                                        notes={growthNotes}
-                                        onNoteClick={handleNoteClick}
-                                    />
-                                )}
+                                <div>
+                                    <h1 className="text-2xl font-bold">Notes</h1>
+                                </div>
+                                <Developments
+                                    developments={developments}
+                                    onDevelopmentClick={handleDevelopmentClick}
+                                    onCreateClick={() => setShowCreateDevelopmentModal(true)}
+                                />
                             </>
                         )}
-                        */}
                     </div>
 
                     {/* journal modals */}
@@ -268,6 +274,25 @@ export default function Dashboard() {
                         onClose={handleCloseModals}
                         journal={journalToDelete}
                         onSuccess={handleJournalDeleted}
+                    />
+
+                    {/* development modals */}
+                    <CreateDevelopmentModal
+                        isOpen={showCreateDevelopmentModal}
+                        onClose={handleCloseModals}
+                        onSuccess={handleDevelopmentCreated}
+                    />
+                    <ShowDevelopmentModal
+                        isOpen={showShowDevelopmentModal}
+                        onClose={handleCloseModals}
+                        development={selectedDevelopment}
+                        onDelete={handleDeleteDevelopmentClick}  
+                    />
+                    <DeleteDevelopmentModal
+                        isOpen={showDeleteDevelopmentModal}
+                        onClose={handleCloseModals}
+                        development={developmentToDelete} 
+                        onSuccess={handleDevelopmentDeleted}
                     />
                 </main>
             </div>

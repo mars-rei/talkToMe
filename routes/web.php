@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 // for journals
 use App\Http\Controllers\JournalController;
 
+// for developments
+use App\Http\Controllers\DevelopmentController;
+
 // for dashboard
 use Illuminate\Support\Facades\Auth;
 
@@ -40,8 +43,13 @@ Route::get('/dashboard', function () {
         ->orderBy('id', 'desc')
         ->get(['id', 'title']) : [];
 
+    $developments = $user ? $user->developments()
+        ->orderBy('date', 'desc')
+        ->get(['id', 'date', 'text_content']) : [];
+
     return Inertia::render('Dashboard', [
         'journals' => $journals,
+        'developments' => $developments,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -54,4 +62,13 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/journals/{journal}', [JournalController::class, 'update'])->name('journals.update');
     Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journals.destroy');
     Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('journals.show');
+});
+
+// development routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/developments', [DevelopmentController::class, 'index'])->name('developments.index');
+    Route::get('/developments/create', [DevelopmentController::class, 'create'])->name('developments.create'); 
+    Route::post('/developments', [DevelopmentController::class, 'store'])->name('developments.store');
+    Route::delete('/developments/{development}', [DevelopmentController::class, 'destroy'])->name('developments.destroy');
+    Route::get('/developments/{development}', [DevelopmentController::class, 'show'])->name('developments.show');
 });

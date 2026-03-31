@@ -53,4 +53,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Journal::class);
     }
+
+    // a user can have many affirmations
+    public function affirmations()
+    {
+        return $this->hasMany(Affirmation::class);
+    }
+
+    // a user can have many developments
+    public function developments()
+    {
+        return $this->hasMany(Development::class);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 31/03 by mars
+// last updated on 31/03 by mars
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entries', function (Blueprint $table) {
+        Schema::create('developments', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('journal_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('date');
             $table->longText('text_content', 5000);
-            $table->string('mood', 16);
 
             $table->timestamps();
         });
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entries');
+        Schema::dropIfExists('developments');
     }
 };
