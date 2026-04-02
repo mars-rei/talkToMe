@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 31/03 by mars
+# last updated on 02/04 by mars
 
 namespace App\Models;
 
@@ -19,7 +19,7 @@ class Entry extends Model
     ];
 
     // a journal entry belongs to a journal
-    public function journals()
+    public function journal()
     {
         return $this->belongsTo(Journal::class);
     }

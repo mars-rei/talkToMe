@@ -1,3 +1,5 @@
+// last updated on 02/04 by mars
+
 const Journals = ({ journals = [], onJournalClick, onCreateClick }) => {
 
   const journalCount = journals?.length || 0;

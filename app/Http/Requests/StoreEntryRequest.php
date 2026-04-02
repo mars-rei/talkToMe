@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 30/03 by mars
+# last updated on 02/04 by mars
 
 namespace App\Http\Requests;
 
@@ -13,7 +13,7 @@ class StoreEntryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreEntryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'date' => 'required|date',
+            'text_content' => 'required|longText|max:5000', 
+            'mood' => 'required|string|max:16',
         ];
     }
 }

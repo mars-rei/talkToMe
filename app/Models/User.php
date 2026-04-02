@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 30/03 by mars
+# last updated on 02/04 by mars
 
 namespace App\Models;
 
@@ -52,6 +52,15 @@ class User extends Authenticatable
     public function journals()
     {
         return $this->hasMany(Journal::class);
+    }
+
+    // get entries from user's journals
+    public function entries()
+    {
+        return Entry::whereIn('journal_id', $this->journals()->pluck('id'))
+            ->with('journal')
+            ->orderBy('date', 'desc')
+            ->get();
     }
 
     // a user can have many affirmations

@@ -1,3 +1,5 @@
+// last updated on 02/04 by mars
+
 export default function JournalShow({ 
     journal, 
     allEntries = [], 
@@ -10,7 +12,7 @@ export default function JournalShow({
     
     // get all entries for this journal
     const journalEntries = allEntries.filter(item => 
-        item.journals?.some(j => j.id === journal.id)
+        item.journal_id === journal.id
     );
 
     return (
@@ -64,18 +66,21 @@ export default function JournalShow({
                     <p className="mb-4">No entries in this journal yet.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-4 gap-8">
+                <div className="space-y-4">
                     {journalEntries.map((entry) => (
                         <div 
                             key={entry.id} 
                             onClick={() => onEntryClick(entry)}
-                            className="w-full h-52 flex flex-col cursor-pointer group"
+                            className="w-full flex flex-col bg-slate-300 rounded-md cursor-pointer p-4"
                         >      
-                            <div className="h-12 bg-[#EBFFF2] rounded-b-2xl p-4 flex items-center group-hover:bg-[#B5446E]">
+                            <div>
                                 <p className="text-sm truncate">{entry.date}</p>
                             </div>    
-                            <div className="h-12 bg-[#EBFFF2] rounded-b-2xl p-4 flex items-center group-hover:bg-[#B5446E]">
+                            <div>
                                 <p className="text-sm truncate">{entry.text_content}</p>
+                            </div>
+                            <div>
+                                <p className="text-sm truncate">Mood: {entry.mood}</p>
                             </div>
                         </div>
                     ))}

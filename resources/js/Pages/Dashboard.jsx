@@ -1,4 +1,4 @@
-// last updated on 31/03 by mars
+// last updated on 02/04 by mars
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -8,6 +8,11 @@ import JournalShow from '@/Layouts/Journals/Show';
 import CreateJournalModal from '@/Components/Journals/CreateJournalModal';
 import EditJournalModal from '@/Components/Journals/EditJournalModal';
 import DeleteJournalModal from '@/Components/Journals/DeleteJournalModal';
+
+// entry
+import CreateEntryModal from '@/Components/Entries/CreateEntryModal';
+import ShowEntryModal from '@/Components/Entries/ShowEntryModal';
+import DeleteEntryModal from '@/Components/Entries/DeleteEntryModal';
 
 // development
 import Developments from '@/Layouts/Developments/Index';
@@ -32,11 +37,17 @@ export default function Dashboard() {
     };
     const [activeView, setActiveView] = useState('journals');
     
+
     // for single journal views
     const [selectedJournal, setSelectedJournal] = useState(null);
 
     // for viewing entries for each journal
     const [journalEntryId, setJournalEntryId] = useState(null);
+
+
+    // for single entry views
+    const [selectedEntry, setSelectedEntry] = useState(null);
+
 
     // journal modal states 
     const [showCreateJournalModal, setShowCreateJournalModal] = useState(false);
@@ -47,10 +58,9 @@ export default function Dashboard() {
 
     // entry modal states
     const [showCreateEntryModal, setShowCreateEntryModal] = useState(false);
-    const [showEditEntryModal, setShowEditEntryModal] = useState(false);
     const [showShowEntryModal, setShowShowEntryModal] = useState(false);
     const [showDeleteEntryModal, setShowDeleteEntryModal] = useState(false);
-    const [selectedEntry, setSelectedEntry] = useState(null);
+    const [entryToDelete, setEntryToDelete] = useState(null);
 
     // development modal states
     const [showCreateDevelopmentModal, setShowCreateDevelopmentModal] = useState(false);
@@ -85,14 +95,8 @@ export default function Dashboard() {
         setShowShowEntryModal(true);
     };
 
-    const handleEditEntryClick = (entry) => {
-        setSelectedEntry(entry);
-        setShowEditEntryModal(true);
-        setShowShowEntryModal(false);
-    };
-
     const handleDeleteEntryClick = (entry) => {
-        setSelectedEntry(media); {/*is this wrong?*/}
+        setEntryToDelete(entry); 
         setShowDeleteEntryModal(true);
         setShowShowEntryModal(false);
     };
@@ -119,7 +123,6 @@ export default function Dashboard() {
 
         // entry modals
         setShowCreateEntryModal(false);
-        setShowEditEntryModal(false);
         setShowShowEntryModal(false);
         setShowDeleteEntryModal(false);
         setSelectedEntry(null);
@@ -136,6 +139,9 @@ export default function Dashboard() {
     const handleJournalCreated = () => { router.reload(); };
     const handleJournalUpdated = () => { router.reload(); handleCloseModals(); };
     const handleJournalDeleted = () => { router.reload(); handleCloseModals(); };
+
+    const handleEntryCreated = () => { router.reload(); };
+    const handleEntryDeleted = () => { router.reload(); handleCloseModals(); };
 
     const handleDevelopmentCreated = () => { router.reload(); };
     const handleDevelopmentDeleted = () => { router.reload(); handleCloseModals(); };
@@ -274,6 +280,26 @@ export default function Dashboard() {
                         onClose={handleCloseModals}
                         journal={journalToDelete}
                         onSuccess={handleJournalDeleted}
+                    />
+
+                    {/* entry modals */}
+                    <CreateEntryModal
+                        isOpen={showCreateEntryModal}
+                        onClose={handleCloseModals}
+                        onSuccess={handleEntryCreated}
+                        selectedJournalId={journalEntryId}
+                    />
+                    <ShowEntryModal
+                        isOpen={showShowEntryModal}
+                        onClose={handleCloseModals}
+                        entry={selectedEntry}
+                        onDelete={handleDeleteEntryClick}  
+                    />
+                    <DeleteEntryModal
+                        isOpen={showDeleteEntryModal}
+                        onClose={handleCloseModals}
+                        entry={entryToDelete}
+                        onSuccess={handleEntryDeleted}
                     />
 
                     {/* development modals */}

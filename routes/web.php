@@ -1,5 +1,7 @@
 <?php
 
+# last updated on 02/04 by mars
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +13,9 @@ use Illuminate\Http\Request;
 
 // for journals
 use App\Http\Controllers\JournalController;
+
+// for entries
+use App\Http\Controllers\EntryController;
 
 // for developments
 use App\Http\Controllers\DevelopmentController;
@@ -43,12 +48,15 @@ Route::get('/dashboard', function () {
         ->orderBy('id', 'desc')
         ->get(['id', 'title']) : [];
 
+    $entries = $user ? $user->entries() : [];
+
     $developments = $user ? $user->developments()
         ->orderBy('date', 'desc')
         ->get(['id', 'date', 'text_content']) : [];
 
     return Inertia::render('Dashboard', [
         'journals' => $journals,
+        'entries' => $entries,
         'developments' => $developments,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -62,6 +70,15 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/journals/{journal}', [JournalController::class, 'update'])->name('journals.update');
     Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journals.destroy');
     Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('journals.show');
+});
+
+// entry routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/entries', [EntryController::class, 'index'])->name('entries.index');
+    Route::get('/entries/create', [EntryController::class, 'create'])->name('entries.create');
+    Route::post('/entries', [EntryController::class, 'store'])->name('entries.store');
+    Route::get('/entries/{entry}', [EntryController::class, 'show'])->name('entries.show');
+    Route::delete('/entries/{entry}', [EntryController::class, 'destroy'])->name('entries.destroy');
 });
 
 // development routes
