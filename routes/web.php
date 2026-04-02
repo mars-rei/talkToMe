@@ -17,6 +17,9 @@ use App\Http\Controllers\JournalController;
 // for entries
 use App\Http\Controllers\EntryController;
 
+// for affirmations
+use App\Http\Controllers\AffirmationController;
+
 // for developments
 use App\Http\Controllers\DevelopmentController;
 
@@ -48,15 +51,20 @@ Route::get('/dashboard', function () {
         ->orderBy('id', 'desc')
         ->get(['id', 'title']) : [];
 
-    $entries = $user ? $user->entries() : [];
+    $entries = $user ? $user->entries()->get() : [];
 
     $developments = $user ? $user->developments()
         ->orderBy('date', 'desc')
         ->get(['id', 'date', 'text_content']) : [];
 
+    $affirmations = $user ? $user->affirmations()
+        ->orderBy('id', 'desc')
+        ->get(['id', 'file_path', 'file_type']) : [];
+
     return Inertia::render('Dashboard', [
         'journals' => $journals,
         'entries' => $entries,
+        'affirmations' => $affirmations,
         'developments' => $developments,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -79,6 +87,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/entries', [EntryController::class, 'store'])->name('entries.store');
     Route::get('/entries/{entry}', [EntryController::class, 'show'])->name('entries.show');
     Route::delete('/entries/{entry}', [EntryController::class, 'destroy'])->name('entries.destroy');
+});
+
+// affirmation routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/affirmations', [AffirmationController::class, 'index'])->name('affirmations.index');
+    Route::get('/affirmations/create', [AffirmationController::class, 'create'])->name('affirmations.create'); 
+    Route::post('/affirmations', [AffirmationController::class, 'store'])->name('affirmations.store');
+    Route::delete('/affirmations/{affirmation}', [AffirmationController::class, 'destroy'])->name('affirmations.destroy');
+    Route::get('/affirmations/{affirmation}', [AffirmationController::class, 'show'])->name('affirmations.show');
+
+    Route::get('/affirmations/{affirmation}/download', [AffirmationController::class, 'download'])
+    ->name('affirmations.download');
 });
 
 // development routes

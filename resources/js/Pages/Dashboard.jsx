@@ -14,6 +14,12 @@ import CreateEntryModal from '@/Components/Entries/CreateEntryModal';
 import ShowEntryModal from '@/Components/Entries/ShowEntryModal';
 import DeleteEntryModal from '@/Components/Entries/DeleteEntryModal';
 
+// affirmation
+import Affirmations from '@/Layouts/Affirmations/Index';
+import ShowAffirmationModal from '@/Components/Affirmations/ShowAffirmationModal';
+import CreateAffirmationModal from '@/Components/Affirmations/CreateAffirmationModal';
+import DeleteAffirmationModal from '@/Components/Affirmations/DeleteAffirmationModal';
+
 // development
 import Developments from '@/Layouts/Developments/Index';
 import ShowDevelopmentModal from '@/Components/Developments/ShowDevelopmentModal';
@@ -26,7 +32,12 @@ import { useState } from 'react';
 
 export default function Dashboard() {
     // all the user's journals and entries
-    const { journals: journals, entries: entries, developments: developments } = usePage().props;
+    const { 
+        journals: journals, 
+        entries: entries, 
+        affirmations: affirmations,
+        developments: developments 
+    } = usePage().props;
 
     // to get user's name
     const user = usePage().props.auth.user;
@@ -61,6 +72,13 @@ export default function Dashboard() {
     const [showShowEntryModal, setShowShowEntryModal] = useState(false);
     const [showDeleteEntryModal, setShowDeleteEntryModal] = useState(false);
     const [entryToDelete, setEntryToDelete] = useState(null);
+
+    // affirmation modal states
+    const [showCreateAffirmationModal, setShowCreateAffirmationModal] = useState(false);
+    const [showShowAffirmationModal, setShowShowAffirmationModal] = useState(false);
+    const [showDeleteAffirmationModal, setShowDeleteAffirmationModal] = useState(false);
+    const [selectedAffirmation, setSelectedAffirmation] = useState(null);
+    const [affirmationToDelete, setAffirmationToDelete] = useState(null);
 
     // development modal states
     const [showCreateDevelopmentModal, setShowCreateDevelopmentModal] = useState(false);
@@ -101,6 +119,18 @@ export default function Dashboard() {
         setShowShowEntryModal(false);
     };
 
+    // affirmation handlers
+    const handleAffirmationClick = (affirmation) => {
+        setSelectedAffirmation(affirmation);
+        setShowShowAffirmationModal(true);
+    };
+
+    const handleDeleteAffirmationClick = (affirmation) => {
+        setAffirmationToDelete(affirmation);
+        setShowDeleteAffirmationModal(true);
+        setShowShowAffirmationModal(false);
+    };
+
     // development handlers
     const handleDevelopmentClick = (development) => {
         setSelectedDevelopment(development);
@@ -128,6 +158,12 @@ export default function Dashboard() {
         setSelectedEntry(null);
         setJournalEntryId(null);
 
+        // affirmation modals
+        setShowCreateAffirmationModal(false);
+        setShowDeleteAffirmationModal(false);
+        setAffirmationToDelete(null);
+        setSelectedAffirmation(null);
+
         // development modals
         setShowCreateDevelopmentModal(false);
         setShowDeleteDevelopmentModal(false);
@@ -142,6 +178,9 @@ export default function Dashboard() {
 
     const handleEntryCreated = () => { router.reload(); };
     const handleEntryDeleted = () => { router.reload(); handleCloseModals(); };
+
+    const handleAffirmationCreated = () => { router.reload(); };
+    const handleAffirmationDeleted = () => { router.reload(); handleCloseModals(); };
 
     const handleDevelopmentCreated = () => { router.reload(); };
     const handleDevelopmentDeleted = () => { router.reload(); handleCloseModals(); };
@@ -220,33 +259,19 @@ export default function Dashboard() {
                             </>
                         )}
 
-
                         {/* Positive Wall  */}
                         {activeView === 'positiveWall' && (
-                            <div>
-                                <p className='mb-2 text-xl mt-2 text-gray-600'>
-                                    Share your positive thoughts!
-                                </p>
-                            </div>
-                        )}
-                        {/*
-                        {activeView === 'positiveWall' && (
                             <>
-                                {selectedPost ? (
-                                    <PositiveWallShow
-                                        post={selectedPost}
-                                        onEdit={handleShowEditPost}
-                                        onDelete={handleDeletePost}
-                                    />
-                                ) : (
-                                    <PositiveWall
-                                        posts={wallPosts}
-                                        onPostClick={handleWallPostClick}
-                                    />
-                                )}
+                                <div>
+                                    <h1 className="text-2xl font-bold">Affirmations</h1>
+                                </div>
+                                <Affirmations
+                                    affirmations={affirmations}
+                                    onAffirmationClick={handleAffirmationClick}
+                                    onCreateClick={() => setShowCreateAffirmationModal(true)}
+                                />
                             </>
                         )}
-                        */}
 
                         {/* Growth Notes  */}
                         {activeView === 'growthNotes' && (
@@ -300,6 +325,25 @@ export default function Dashboard() {
                         onClose={handleCloseModals}
                         entry={entryToDelete}
                         onSuccess={handleEntryDeleted}
+                    />
+
+                    {/* affirmation modals */}
+                    <CreateAffirmationModal
+                        isOpen={showCreateAffirmationModal}
+                        onClose={handleCloseModals}
+                        onSuccess={handleAffirmationCreated}
+                    />
+                    <ShowAffirmationModal
+                        isOpen={showShowAffirmationModal}
+                        onClose={handleCloseModals}
+                        affirmation={selectedAffirmation}
+                        onDelete={handleDeleteAffirmationClick}  
+                    />
+                    <DeleteAffirmationModal
+                        isOpen={showDeleteAffirmationModal}
+                        onClose={handleCloseModals}
+                        affirmation={affirmationToDelete} 
+                        onSuccess={handleAffirmationDeleted}
                     />
 
                     {/* development modals */}

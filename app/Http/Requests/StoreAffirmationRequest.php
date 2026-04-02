@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 30/03 by mars
+# last updated on 02/04 by mars
 
 namespace App\Http\Requests;
 
@@ -24,7 +24,8 @@ class StoreAffirmationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // will do this later
+            // the fields to put into the db are made in the controller
+            'file' => 'required|file|mimes:jpg,jpeg,png,gif|max:5120', // photos only!!
         ];
     }
 }

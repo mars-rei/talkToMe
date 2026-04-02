@@ -4,6 +4,9 @@
 
 namespace App\Models;
 
+use App\Models\Entry;
+use App\Models\Journal;
+
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,13 +57,9 @@ class User extends Authenticatable
         return $this->hasMany(Journal::class);
     }
 
-    // get entries from user's journals
     public function entries()
     {
-        return Entry::whereIn('journal_id', $this->journals()->pluck('id'))
-            ->with('journal')
-            ->orderBy('date', 'desc')
-            ->get();
+        return $this->hasManyThrough(Entry::class, Journal::class);
     }
 
     // a user can have many affirmations
