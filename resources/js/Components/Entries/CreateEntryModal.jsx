@@ -1,4 +1,4 @@
-// last updated on 02/04 by mars
+// last updated on 03/04 by mars
 
 import { useForm } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
@@ -9,11 +9,19 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
         date:'',
         text_content: '',
         mood: '',
+
+        // media
+        media_files: [],
+        captions: [],
     });
+
+    // for previewing media when making entry
+    const [previewUrls, setPreviewUrls] = useState([]);
 
     useEffect(() => {
         if (!isOpen) {
             reset();
+            setPreviewUrls([]);
         }
     }, [isOpen]);
 
@@ -24,11 +32,81 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
     const submit = (e) => {
         e.preventDefault();
         post('/entries', {
+            forceFormData: true,
             onSuccess: () => {
                 onSuccess();
                 onClose();
             },
+            onError: (errors) => {
+                console.error('Upload error:', errors);
+            },
+
+            preserveState: false,
+            preserveScroll: false,
         });
+    };
+
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
+
+        // file type validation
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4'];
+
+        // set file size
+        const maxSize = 10 * 1024 * 1024; // 10mb maximum
+
+        const validMedia = files.filter(file => {
+            if (!allowedTypes.includes(file.type)) {
+                alert(`Media type not allowed: ${file.name}`);
+                return false;
+            }
+            if (file.size > maxSize) {
+                alert(`Media size too large: ${file.name} (max 10MB)`);
+                return false;
+            }
+            return true;
+        });
+
+        // update media array when new ones are added
+        const currentMedia = data.media_files || [];
+        const newMedia = [...currentMedia, ...validMedia];
+        setData('media_files', newMedia);
+
+        // update media captions array when new ones are added
+        // Initialize captions for new files
+        const currentCaptions = data.captions || [];
+        const newCaptions = [...currentCaptions, ...validMedia.map(() => '')];
+        setData('captions', newCaptions);
+        
+        // preview media
+        const newPreviewUrls = validMedia.map(file => URL.createObjectURL(file));
+        setPreviewUrls([...previewUrls, ...newPreviewUrls]);
+    };
+
+    const removeMedia = (index) => {
+        // free cache by removing preview of media
+        if (previewUrls[index]) {
+            URL.revokeObjectURL(previewUrls[index]);
+        }
+        
+        // remove media from arrays
+        const newMedia = [...data.media_files];
+        newMedia.splice(index, 1);
+        setData('media_files', newMedia);
+        
+        const newCaptions = [...data.captions];
+        newCaptions.splice(index, 1);
+        setData('captions', newCaptions);
+        
+        const newPreviews = [...previewUrls];
+        newPreviews.splice(index, 1);
+        setPreviewUrls(newPreviews);
+    };
+
+    const updateCaption = (index, caption) => {
+        const newCaptions = [...data.captions];
+        newCaptions[index] = caption;
+        setData('captions', newCaptions);
     };
 
     if (!isOpen) return null;
@@ -82,7 +160,7 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
                         </div>
                     </div>
 
-                    {/* mood - to add later on */}
+                    {/* mood */}
                     <div className="space-y-2">
                         <p className="text-xl text-[#EBFFF2]">
                             Mood
@@ -104,11 +182,96 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
                         </select>
                     </div>
 
-                    {/* file upload - to add later on */}
+                    {/* file upload - voice note to add later on */}
                     <div className="space-y-2">
                         <p className="text-xl text-[#EBFFF2]">
-                            Choose File - to add later!!
+                            Attach Media
                         </p>
+
+                        <div className="border-2 border-dashed border-[#EBFFF2] rounded-md p-6 text-center hover:border-[#B5446E] transition-colors">
+                            <input
+                                type="file"
+                                id="media-upload"
+                                onChange={handleFileChange}
+                                className="hidden"
+                                accept="image/*,video/*"
+                                multiple
+                            />
+                            <label 
+                                htmlFor="media-upload" 
+                                className="cursor-pointer block"
+                            >
+                                <i className="fa fa-cloud-upload-alt fa-3x text-[#EBFFF2] mb-3"></i>
+                                <p className="text-[#EBFFF2] mb-2">
+                                    Click to upload images or videos.
+                                </p>
+                                <p className="text-[#EBFFF2] text-sm">
+                                    Max file size: 10MB per file
+                                </p>
+                            </label>
+                        </div>
+
+                        {/* showing of attached media */}
+                        {data.media_files && data.media_files.length > 0 && (
+                            <div className="space-y-3 mt-4">
+                                <p className="text-lg text-[#EBFFF2]">Attached Files:</p>
+                                {data.media_files.map((file, index) => (
+                                    <div key={index} className="border border-[#EBFFF2] rounded-md p-3">
+                                        <div className="flex items-start justify-between">
+                                            <div className="flex-1">
+                                                <div className="flex items-center space-x-2 mb-2">
+                                                    <span className="text-[#EBFFF2] text-sm">{file.name}</span>
+                                                    <span className="text-[#EBFFF2] text-xs">
+                                                        ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                                                    </span>
+                                                </div>
+                                                
+                                                {/* Preview for images */}
+                                                {file.type.startsWith('image/') && previewUrls[index] && (
+                                                    <div className="mb-2">
+                                                        <img 
+                                                            src={previewUrls[index]} 
+                                                            alt={`Preview ${index}`}
+                                                            className="max-h-32 rounded object-contain bg-black"
+                                                        />
+                                                    </div>
+                                                )}
+                                                
+                                                {/* Preview for videos */}
+                                                {file.type.startsWith('video/') && previewUrls[index] && (
+                                                    <div className="mb-2">
+                                                        <video 
+                                                            src={previewUrls[index]} 
+                                                            controls 
+                                                            className="max-h-32 rounded"
+                                                        />
+                                                    </div>
+                                                )}
+                                                
+                                                {/* Caption input */}
+                                                <input
+                                                    type="text"
+                                                    value={data.captions[index] || ''}
+                                                    onChange={(e) => updateCaption(index, e.target.value)}
+                                                    placeholder="Add a caption (optional)"
+                                                    className="mt-2 text-[#EBFFF2] text-sm font-fustat-medium bg-[#1F1F1F] w-full border-[#EBFFF2] border rounded-md px-2 py-1"
+                                                />
+                                            </div>
+                                            
+                                            <button
+                                                type="button"
+                                                onClick={() => removeMedia(index)}
+                                                className="text-[#B5446E] hover:text-[#9a3a5e] ml-2"
+                                            >
+                                                <i className="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        
+                        {errors.media_files && <div className="text-[#B5446E] text-sm mt-1">{errors.media_files}</div>}
                     </div>
 
                     {/* form buttons */}

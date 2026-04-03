@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 02/04 by mars
+# last updated on 03/04 by mars
 
 namespace App\Models;
 
@@ -22,5 +22,11 @@ class Entry extends Model
     public function journal()
     {
         return $this->belongsTo(Journal::class);
+    }
+
+    // a journal entry can have many media 
+    public function media()
+    {
+        return $this->hasMany(Media::class);
     }
 }

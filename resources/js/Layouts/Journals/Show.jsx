@@ -1,19 +1,73 @@
-// last updated on 02/04 by mars
+// last updated on 03/04 by mars
 
 export default function JournalShow({ 
     journal, 
-    allEntries = [], 
+    entries = [],
     onBack, 
     onEdit, 
     onDelete,
     onEntryClick,
     onAddEntryClick
 }) {
+
+    const getMimeType = (fileType) => {
+        const mimeMap = {
+            'jpg': 'image/jpeg',
+            'jpeg': 'image/jpeg',
+            'png': 'image/png',
+            'gif': 'image/gif',
+            'mp4': 'video/mp4',
+            'mov': 'video/quicktime',
+            'avi': 'video/x-msvideo',
+            'webm': 'video/webm',
+        };
+        return mimeMap[fileType.toLowerCase()] || fileType;
+    };
     
+    const renderMediaPreview = (media) => {
+        const filePath = `/storage/${media.file_path}`;
+
+        const mimeType = media.file_type?.includes('/') 
+            ? media.file_type 
+            : getMimeType(media.file_type);
+        
+        if (mimeType.startsWith('image/')) {
+            return (
+                <img 
+                    src={filePath} 
+                    className="max-h-32 rounded object-contain bg-black"
+                />
+            );
+        }
+        
+        if (mimeType.startsWith('video/')) {
+            return (
+                <video 
+                    controls 
+                    className="max-h-32 rounded bg-black"
+                >
+                    <source src={filePath} type={mimeType} />
+                </video>
+            );
+        }
+        
+        // for audio files
+        if (mimeType.startsWith('audio/')) {
+            return (
+                <audio 
+                    controls 
+                    className="w-full max-h-32"
+                >
+                    <source src={filePath} type={mimeType} />
+                </audio>
+            );
+        }
+        
+        return null;
+    };
+
     // get all entries for this journal
-    const journalEntries = allEntries.filter(item => 
-        item.journal_id === journal.id
-    );
+    const journalEntries = entries;
 
     return (
         <div>
@@ -67,12 +121,12 @@ export default function JournalShow({
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {journalEntries.map((entry) => (
+                    {journalEntries.map(entry => (
                         <div 
-                            key={entry.id} 
+                            key={entry.id}
                             onClick={() => onEntryClick(entry)}
                             className="w-full flex flex-col bg-slate-300 rounded-md cursor-pointer p-4"
-                        >      
+                        >
                             <div>
                                 <p className="text-sm truncate">{entry.date}</p>
                             </div>    
@@ -82,6 +136,22 @@ export default function JournalShow({
                             <div>
                                 <p className="text-sm truncate">Mood: {entry.mood}</p>
                             </div>
+
+                            {entry.media && entry.media.length > 0 && (
+                                <div className="mt-3 space-y-2">
+                                    <p className="text-sm font-semibold">Media:</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {entry.media.map(media => (
+                                            <div key={media.id} className="relative">
+                                                {renderMediaPreview(media)}
+                                                {media.caption && (
+                                                    <p className="text-xs text-gray-600 mt-1">{media.caption}</p>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

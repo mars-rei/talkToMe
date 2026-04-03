@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 30/03 by mars
+# last updated on 03/04 by mars
 
 namespace App\Models;
 
@@ -19,7 +19,7 @@ class Media extends Model
     ];
 
     // a piece of media belongs to a journal entry
-    public function entries()
+    public function entry()
     {
         return $this->belongsTo(Entry::class);
     }

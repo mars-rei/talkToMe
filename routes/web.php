@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 02/04 by mars
+# last updated on 03/04 by mars
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -51,7 +51,10 @@ Route::get('/dashboard', function () {
         ->orderBy('id', 'desc')
         ->get(['id', 'title']) : [];
 
-    $entries = $user ? $user->entries()->get() : [];
+    $entries = $user ? $user->entries()
+        ->with('media') 
+        ->orderBy('date', 'desc')
+        ->get() : [];
 
     $developments = $user ? $user->developments()
         ->orderBy('date', 'desc')

@@ -1,4 +1,4 @@
-// last updated on 02/04 by mars
+// last updated on 03/04 by mars
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -239,7 +239,7 @@ export default function Dashboard() {
                                 {selectedJournal ? (
                                     <JournalShow 
                                         journal={selectedJournal}
-                                        allEntries={entries}
+                                        entries={entries}
                                         onBack={handleBackToJournals}
                                         onEdit={handleEditJournal}
                                         onDelete={handleDeleteJournal}
