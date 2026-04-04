@@ -1,4 +1,4 @@
-// last updated on 03/04 by mars
+// last updated on 04/04 by mars
 
 export default function ShowEntriesModal({ isOpen, onClose, entry, onDelete }) {
     if (!isOpen || !entry) return null;
@@ -12,6 +12,7 @@ export default function ShowEntriesModal({ isOpen, onClose, entry, onDelete }) {
             'gif': 'image/gif',
             'mp4': 'video/mp4',
             'mov': 'video/quicktime',
+            'webm': 'audio/webm', // voice note type from built in voice recording
         };
         return mimeMap[fileType.toLowerCase()] || fileType;
     };
@@ -29,7 +30,6 @@ export default function ShowEntriesModal({ isOpen, onClose, entry, onDelete }) {
                 <div className="relative group">
                     <img 
                         src={filePath} 
-                        alt={mediaItem.caption || 'Entry image'}
                         className="max-w-full h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                         onClick={() => window.open(filePath, '_blank')}
                     />
@@ -48,6 +48,22 @@ export default function ShowEntriesModal({ isOpen, onClose, entry, onDelete }) {
                         controls 
                         className="max-w-full h-auto rounded-lg"
                     />
+                    {mediaItem.caption && (
+                        <p className="text-sm text-[#EBFFF2] mt-1 italic">{mediaItem.caption}</p>
+                    )}
+                </div>
+            );
+        }
+
+        if (mimeType.startsWith('audio/')) {
+            return (
+                <div>
+                    <audio 
+                        controls 
+                        className="w-full max-h-32"
+                    >
+                        <source src={filePath} type={mimeType} />
+                    </audio>
                     {mediaItem.caption && (
                         <p className="text-sm text-[#EBFFF2] mt-1 italic">{mediaItem.caption}</p>
                     )}

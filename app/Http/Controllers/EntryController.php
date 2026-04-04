@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 03/04 by mars
+# last updated on 04/04 by mars
 
 namespace App\Http\Controllers;
 
@@ -51,7 +51,7 @@ class EntryController extends Controller
 
             // media
             'media_files' => 'nullable|array',
-            'media_files.*' => 'file|max:10240|mimes:jpeg,png,jpg,gif,mp4,mov', // 10mb maximum
+            'media_files.*' => 'file|max:51200|mimes:jpeg,png,jpg,gif,mp4,mov,webm,wav,mp3,m4a', // 50mb maximum
             'captions' => 'nullable|array',
             'captions.*' => 'nullable|string|max:150',
         ]);

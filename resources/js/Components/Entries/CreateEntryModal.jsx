@@ -1,7 +1,10 @@
-// last updated on 03/04 by mars
+// last updated on 04/04 by mars
 
 import { useForm } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
+
+// for voice recordings - from https://www.npmjs.com/package/react-audio-voice-recorder
+import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 
 export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selectedJournalId }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -15,19 +18,49 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
         captions: [],
     });
 
+    // for voice notes
+    const recorderControls = useAudioRecorder();
+    
     // for previewing media when making entry
     const [previewUrls, setPreviewUrls] = useState([]);
+    const [voicePreviewUrl, setVoicePreviewUrl] = useState(null);
 
     useEffect(() => {
         if (!isOpen) {
             reset();
             setPreviewUrls([]);
+
+            // for voice recording
+            setVoicePreviewUrl(null); 
+            recorderControls.stopRecording(); 
         }
     }, [isOpen]);
 
     useEffect(() => {
         setData('journal_id', selectedJournalId);
     }, [selectedJournalId]);
+
+    const handleVoiceNotes = (blob) => {
+        if (!blob) return;
+        
+        // create voice note media object
+        const voiceNote = new File([blob], `voice_${Date.now()}.webm`, { type: blob.type });
+        
+        const currentMedia = data.media_files || [];
+        const newMedia = [...currentMedia, voiceNote];
+        setData('media_files', newMedia);
+        
+        const currentCaptions = data.captions || [];
+        const newCaptions = [...currentCaptions];
+        setData('captions', newCaptions);
+        
+        const url = URL.createObjectURL(blob);
+        setPreviewUrls([...previewUrls, url]);
+        setVoicePreviewUrl(url); 
+        
+        // store for form submission
+        setData('voice_recording', blob);
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -46,6 +79,7 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
         });
     };
 
+    // for non-voice-notes from built-in function
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
 
@@ -53,7 +87,7 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
         const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4'];
 
         // set file size
-        const maxSize = 10 * 1024 * 1024; // 10mb maximum
+        const maxSize = 50 * 1024 * 1024; // 50mb maximum
 
         const validMedia = files.filter(file => {
             if (!allowedTypes.includes(file.type)) {
@@ -61,7 +95,7 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
                 return false;
             }
             if (file.size > maxSize) {
-                alert(`Media size too large: ${file.name} (max 10MB)`);
+                alert(`Media size too large: ${file.name} (max 50MB)`);
                 return false;
             }
             return true;
@@ -73,7 +107,6 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
         setData('media_files', newMedia);
 
         // update media captions array when new ones are added
-        // Initialize captions for new files
         const currentCaptions = data.captions || [];
         const newCaptions = [...currentCaptions, ...validMedia.map(() => '')];
         setData('captions', newCaptions);
@@ -101,6 +134,13 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
         const newPreviews = [...previewUrls];
         newPreviews.splice(index, 1);
         setPreviewUrls(newPreviews);
+
+        // same with voice notes
+        const removedFile = data.media_files[index];
+        if (removedFile && removedFile.name && removedFile.name.includes('voice_')) {
+            setVoicePreviewUrl(null);
+            setData('voice_recording', null);
+        }
     };
 
     const updateCaption = (index, caption) => {
@@ -182,11 +222,36 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
                         </select>
                     </div>
 
-                    {/* file upload - voice note to add later on */}
+                    {/* file upload */}
                     <div className="space-y-2">
                         <p className="text-xl text-[#EBFFF2]">
                             Attach Media
                         </p>
+
+                        <div className=" space-y-2 border-2 border-dashed border-[#EBFFF2] rounded-md p-6 text-start hover:border-[#B5446E] transition-colors">
+                            <p className="text-[#EBFFF2] text-lg">Voice Recording</p>
+                            <div className="flex flex-row items-center space-x-2">
+                                <div className="flex items-center space-x-2">
+                                    <AudioRecorder 
+                                        onRecordingComplete={(blob) => handleVoiceNotes(blob)}
+                                        recorderControls={recorderControls}
+                                        showVisualizer={true}
+                                    />
+                                    {recorderControls.isRecording && (
+                                        <button 
+                                            type="button"
+                                            onClick={recorderControls.stopRecording}
+                                            className="text-[#EBFFF2] bg-[#B5446E] hover:bg-[#9a3a5e] px-3 py-1 rounded text-sm"
+                                        >
+                                            Stop Recording
+                                        </button>
+                                    )}
+                                </div>
+                                <p className="text-[#EBFFF2] text-md">
+                                    {recorderControls.isRecording ? 'Recording...' : 'Start recording'}
+                                </p>
+                            </div>
+                        </div>
 
                         <div className="border-2 border-dashed border-[#EBFFF2] rounded-md p-6 text-center hover:border-[#B5446E] transition-colors">
                             <input
@@ -206,7 +271,7 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
                                     Click to upload images or videos.
                                 </p>
                                 <p className="text-[#EBFFF2] text-sm">
-                                    Max file size: 10MB per file
+                                    Max file size: 50MB per file
                                 </p>
                             </label>
                         </div>
@@ -226,7 +291,7 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
                                                     </span>
                                                 </div>
                                                 
-                                                {/* Preview for images */}
+                                                {/* images */}
                                                 {file.type.startsWith('image/') && previewUrls[index] && (
                                                     <div className="mb-2">
                                                         <img 
@@ -237,7 +302,7 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
                                                     </div>
                                                 )}
                                                 
-                                                {/* Preview for videos */}
+                                                {/* videos */}
                                                 {file.type.startsWith('video/') && previewUrls[index] && (
                                                     <div className="mb-2">
                                                         <video 
@@ -247,8 +312,18 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
                                                         />
                                                     </div>
                                                 )}
+
+                                                {/* voice notes - different logic used - may pass on invalid files starting with 'voice_' */}
+                                                {file.name.includes('voice_') && previewUrls[index] && (
+                                                    <div className="mb-2">
+                                                        <audio 
+                                                            src={previewUrls[index]} 
+                                                            controls 
+                                                            className="w-full"
+                                                        />
+                                                    </div>
+                                                )}
                                                 
-                                                {/* Caption input */}
                                                 <input
                                                     type="text"
                                                     value={data.captions[index] || ''}

@@ -1,4 +1,4 @@
-// last updated on 03/04 by mars
+// last updated on 04/04 by mars
 
 export default function JournalShow({ 
     journal, 
@@ -18,8 +18,7 @@ export default function JournalShow({
             'gif': 'image/gif',
             'mp4': 'video/mp4',
             'mov': 'video/quicktime',
-            'avi': 'video/x-msvideo',
-            'webm': 'video/webm',
+            'webm': 'audio/webm',
         };
         return mimeMap[fileType.toLowerCase()] || fileType;
     };
@@ -35,7 +34,7 @@ export default function JournalShow({
             return (
                 <img 
                     src={filePath} 
-                    className="max-h-32 rounded object-contain bg-black"
+                    className="max-h-40 rounded object-contain"
                 />
             );
         }
@@ -44,7 +43,7 @@ export default function JournalShow({
             return (
                 <video 
                     controls 
-                    className="max-h-32 rounded bg-black"
+                    className="max-h-40 rounded object-contain"
                 >
                     <source src={filePath} type={mimeType} />
                 </video>
@@ -54,12 +53,13 @@ export default function JournalShow({
         // for audio files
         if (mimeType.startsWith('audio/')) {
             return (
-                <audio 
-                    controls 
-                    className="w-full max-h-32"
-                >
-                    <source src={filePath} type={mimeType} />
-                </audio>
+                <div className="w-fit">
+                    <audio 
+                        controls 
+                    >
+                        <source src={filePath} type={mimeType} />
+                    </audio>
+                </div>
             );
         }
         
