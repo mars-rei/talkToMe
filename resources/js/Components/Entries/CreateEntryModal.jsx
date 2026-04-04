@@ -9,7 +9,6 @@ import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selectedJournalId }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         journal_id: selectedJournalId,
-        date:'',
         text_content: '',
         mood: '',
 
@@ -164,20 +163,6 @@ export default function CreateEntriesModal({ isOpen, onClose, onSuccess, selecte
                 </div>
 
                 <form onSubmit={submit} className="space-y-4">
-                    <div className="space-y-2">
-                        <p className="text-xl text-[#EBFFF2]">
-                            Date
-                            <span className="text-[#B5446E]"> *</span>
-                        </p>
-                        <input
-                            type="date"
-                            value={data.date}
-                            onChange={e => setData('date', e.target.value)}
-                            className="text-[#EBFFF2] text-base font-fustat-medium bg-[#1F1F1F] w-full h-12 border-[#EBFFF2] border-2 rounded-md outline-none focus:outline-none focus:ring-0 focus:border-[#EBFFF2] px-3"
-                        />
-                        {errors.date && <div className="text-[#B5446E] text-sm mt-1">{errors.date}</div>}
-                    </div>
-
                     <div className="space-y-2">
                         <p className="text-xl text-[#EBFFF2]">
                             Journal Entry

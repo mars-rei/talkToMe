@@ -1,5 +1,17 @@
+// last updated on 04/04 by mars
+
 export default function ShowDevelopmentModal({ isOpen, onClose, development, onDelete }) {
     if (!isOpen || !development) return null;
+
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+    };
 
     return (
 
@@ -16,7 +28,7 @@ export default function ShowDevelopmentModal({ isOpen, onClose, development, onD
                         <p className="text-sm text-gray-400">{development.text_content}</p>
                     </div>
                     <div>
-                        <p className="text-[#EBFFF2] text-base font-fustat-medium">{development.date}</p>
+                        <p className="text-[#EBFFF2] text-base font-fustat-medium">{formatDate(development.created_at)}</p>
                     </div>
                 </div>
 

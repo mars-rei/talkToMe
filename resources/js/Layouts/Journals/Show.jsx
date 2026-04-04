@@ -10,6 +10,16 @@ export default function JournalShow({
     onAddEntryClick
 }) {
 
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+    };
+
     const getMimeType = (fileType) => {
         const mimeMap = {
             'jpg': 'image/jpeg',
@@ -128,7 +138,7 @@ export default function JournalShow({
                             className="w-full flex flex-col bg-slate-300 rounded-md cursor-pointer p-4"
                         >
                             <div>
-                                <p className="text-sm truncate">{entry.date}</p>
+                                <p className="text-sm truncate">{formatDate(entry.created_at)}</p>
                             </div>    
                             <div>
                                 <p className="text-sm truncate">{entry.text_content}</p>

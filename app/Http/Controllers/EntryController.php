@@ -21,8 +21,8 @@ class EntryController extends Controller
     {
         $entries = Auth::user()->entries()
             ->with('media')
-            ->orderBy('date', 'desc')
-            ->get(['entries.id', 'journal_id', 'date', 'text_content', 'mood']);
+            ->orderBy('created_at', 'desc')
+            ->get(['entries.id', 'journal_id', 'text_content', 'mood', 'created_at']);
 
         return Inertia::render('Entries/Index', [
             'entries' => $entries
@@ -45,7 +45,6 @@ class EntryController extends Controller
     {
         $validated = $request->validate([
             'journal_id' => 'required|exists:journals,id',
-            'date' => 'required|date',
             'text_content' => 'required|string',
             'mood' => 'nullable|string',
 

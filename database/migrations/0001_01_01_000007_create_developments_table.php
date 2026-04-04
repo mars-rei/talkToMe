@@ -1,6 +1,6 @@
 <?php
 
-// last updated on 31/03 by mars
+// last updated on 04/04 by mars
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->date('date');
             $table->longText('text_content', 5000);
 
             $table->timestamps();

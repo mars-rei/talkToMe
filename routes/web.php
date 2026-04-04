@@ -53,12 +53,12 @@ Route::get('/dashboard', function () {
 
     $entries = $user ? $user->entries()
         ->with('media') 
-        ->orderBy('date', 'desc')
+        ->orderBy('entries.created_at', 'desc')
         ->get() : [];
 
     $developments = $user ? $user->developments()
-        ->orderBy('date', 'desc')
-        ->get(['id', 'date', 'text_content']) : [];
+        ->orderBy('developments.created_at', 'desc')
+        ->get(['id', 'text_content', 'developments.created_at']) : [];
 
     $affirmations = $user ? $user->affirmations()
         ->orderBy('id', 'desc')

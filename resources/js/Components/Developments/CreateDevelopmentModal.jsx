@@ -1,11 +1,10 @@
-// last updated on 31/03 by mars
+// last updated on 04/04 by mars
 
 import { useForm } from '@inertiajs/react';
 import { useEffect } from 'react';
 
 export default function CreateDevelopmentModal({ isOpen, onClose, onSuccess }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        date: '',
         text_content: '', 
     });
 
@@ -54,20 +53,6 @@ export default function CreateDevelopmentModal({ isOpen, onClose, onSuccess }) {
                             maxLength="255"
                         />
                         {errors.text_content && <div className="text-[#B5446E] text-sm mt-1">{errors.text_content}</div>}
-                    </div>
-
-                    <div className="space-y-2">
-                        <p className="text-xl text-[#EBFFF2]">
-                            Date
-                            <span className="text-[#B5446E]"> *</span>
-                        </p>
-                        <input
-                            type="date"
-                            value={data.date}
-                            onChange={e => setData('date', e.target.value)}
-                            className="text-[#EBFFF2] text-base font-fustat-medium bg-[#1F1F1F] w-full h-12 border-[#EBFFF2] border-2 rounded-md outline-none focus:outline-none focus:ring-0 focus:border-[#EBFFF2] px-3"
-                        />
-                        {errors.date && <div className="text-[#B5446E] text-sm mt-1">{errors.date}</div>}
                     </div>
 
                     {/* form buttons */}

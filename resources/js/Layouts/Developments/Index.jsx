@@ -1,3 +1,5 @@
+// last updated on 04/04 by mars
+
 const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) => {
 
   const developmentCount = developments?.length || 0;
@@ -40,7 +42,7 @@ const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) 
           className="w-64 h-64 flex flex-col cursor-pointer justify-center text-center p-4 space-y-4 items-center bg-slate-500 rounded-md"
         >
           <p>{development.text_content}</p>
-          <p>{formatDate(development.date)}</p>
+          <p>{formatDate(development.created_at)}</p>
         </div>
       ))}
 

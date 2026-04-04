@@ -3,6 +3,16 @@
 export default function ShowEntriesModal({ isOpen, onClose, entry, onDelete }) {
     if (!isOpen || !entry) return null;
 
+    const date = new Date(entry.created_at)
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    const day = date.getUTCDate() 
+    const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    let month = months[date.getUTCMonth()]
+    const year = date.getFullYear()
+    const formattedDate = time + ' ' + day + ' ' + month + ' ' + year
+
     // cba to change the logic of file_type in the db for media
     const getMimeType = (fileType) => {
         const mimeMap = {
@@ -78,7 +88,7 @@ export default function ShowEntriesModal({ isOpen, onClose, entry, onDelete }) {
             <div className="bg-[#111317] border-[#EBFFF2] border-2 p-4 sm:rounded-lg sm:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="font-fustat-medium text-2xl text-[#EBFFF2]">
-                        {entry.date}
+                        {formattedDate}
                     </h2>
                     <button onClick={onClose} className="text-[#EBFFF2] hover:text-[#B5446E]">
                         <i className="fa fa-times fa-xl"></i>
