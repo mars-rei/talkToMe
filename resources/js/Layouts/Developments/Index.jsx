@@ -19,12 +19,12 @@ const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) 
       <div className="flex flex-wrap gap-8">
         <div 
           onClick={onCreateClick}
-          className="w-52 h-52 flex flex-col cursor-pointer group"
+          className="w-52 h-52 flex flex-col cursor-pointer group mt-4"
         >
-            <div className="flex-grow bg-[#F6F9FD] shadow-lg rounded-t-2xl p-6 flex items-center justify-center group-hover:bg-[#B5446E] transition">
+            <div className="flex-grow bg-[#E6D795]/70 p-6 flex items-center justify-center group-hover:bg-[#DBCC79] transition">
               <i className="text-[#111317] fa fa-plus fa-2x -mb-6"></i>
             </div>
-            <div className="h-12 bg-[#F6F9FD] rounded-b-2xl p-4 flex items-center group-hover:bg-[#B5446E] transition">
+            <div className="h-12 bg-[#E6D795]/70 p-4 flex items-center group-hover:bg-[#DBCC79] transition">
               <p>Add New Development</p>
             </div>
         </div>
