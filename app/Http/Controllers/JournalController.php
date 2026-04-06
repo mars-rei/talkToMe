@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 30/03 by mars
+# last updated on 03/04 by mars
 
 namespace App\Http\Controllers;
 
@@ -59,8 +59,15 @@ class JournalController extends Controller
             abort(403);
         }
 
+        $entries = Auth::user()->entries()
+            ->with('media')
+            ->where('journal_id', $journal->id)
+            ->orderBy('date', 'desc')
+            ->get();
+
         return Inertia::render('Journals/Show', [
-            'journal' => $journal
+            'journal' => $journal,
+            'entries' => $entries 
         ]);
     }
 

@@ -1,18 +1,83 @@
-// last updated on 05/04 by valeria
+// last updated on 06/04 by mars
 
 export default function JournalShow({ 
     journal, 
-    allEntries = [], 
+    entries = [],
     onBack, 
     onEdit, 
     onDelete,
     onEntryClick,
     onAddEntryClick
 }) {
+
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+    };
+
+    const getMimeType = (fileType) => {
+        const mimeMap = {
+            'jpg': 'image/jpeg',
+            'jpeg': 'image/jpeg',
+            'png': 'image/png',
+            'gif': 'image/gif',
+            'mp4': 'video/mp4',
+            'mov': 'video/quicktime',
+            'webm': 'audio/webm',
+        };
+        return mimeMap[fileType.toLowerCase()] || fileType;
+    };
     
-    const journalEntries = allEntries.filter(item => 
-        item.journals?.some(j => j.id === journal.id)
-    );
+    const renderMediaPreview = (media) => {
+        const filePath = `/storage/${media.file_path}`;
+
+        const mimeType = media.file_type?.includes('/') 
+            ? media.file_type 
+            : getMimeType(media.file_type);
+        
+        if (mimeType.startsWith('image/')) {
+            return (
+                <img 
+                    src={filePath} 
+                    className="max-h-40 rounded object-contain"
+                />
+            );
+        }
+        
+        if (mimeType.startsWith('video/')) {
+            return (
+                <video 
+                    controls 
+                    className="max-h-40 rounded object-contain"
+                >
+                    <source src={filePath} type={mimeType} />
+                </video>
+            );
+        }
+        
+        // for audio files
+        if (mimeType.startsWith('audio/')) {
+            return (
+                <div className="w-fit">
+                    <audio 
+                        controls 
+                    >
+                        <source src={filePath} type={mimeType} />
+                    </audio>
+                </div>
+            );
+        }
+        
+        return null;
+    };
+
+    // get all entries for this journal
+    const journalEntries = entries;
 
     return (
         <div>
@@ -68,16 +133,16 @@ export default function JournalShow({
                     </p>
                 </div>
             ) : (
-                <div className="grid grid-cols-4 gap-8">
-                    {journalEntries.map((entry) => (
+                <div className="space-y-4">
+                    {journalEntries.map(entry => (
                         <div 
-                            key={entry.id} 
+                            key={entry.id}
                             onClick={() => onEntryClick(entry)}
                             className="w-full h-52 flex flex-col cursor-pointer group"
                         >      
                             <div className="h-12 bg-[#F8FBFD] border border-[#DCE8F2] rounded-t-xl p-4 flex items-center group-hover:bg-[#EEF4F8]">
                                 <p className="text-sm text-[#1F2937] truncate">
-                                    {entry.date}
+                                    {formatDate(entry.created_at)}
                                 </p>
                             </div>    
 
@@ -86,6 +151,25 @@ export default function JournalShow({
                                     {entry.text_content}
                                 </p>
                             </div>
+                            <div>
+                                <p className="text-sm truncate">Mood: {entry.mood}</p>
+                            </div>
+
+                            {entry.media && entry.media.length > 0 && (
+                                <div className="mt-3 space-y-2">
+                                    <p className="text-sm font-semibold">Media:</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {entry.media.map(media => (
+                                            <div key={media.id} className="relative">
+                                                {renderMediaPreview(media)}
+                                                {media.caption && (
+                                                    <p className="text-xs text-gray-600 mt-1">{media.caption}</p>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

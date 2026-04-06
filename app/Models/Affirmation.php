@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 31/03 by mars
+# last updated on 02/04 by mars
 
 namespace App\Models;
 
@@ -16,7 +16,7 @@ class Affirmation extends Model
     ];
 
     // an affirmation belongs to a user
-    public function entries()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

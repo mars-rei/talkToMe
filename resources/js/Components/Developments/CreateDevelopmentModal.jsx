@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 
 export default function CreateDevelopmentModal({ isOpen, onClose, onSuccess }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        date: '',
         text_content: '', 
     });
 
@@ -54,20 +53,6 @@ export default function CreateDevelopmentModal({ isOpen, onClose, onSuccess }) {
                             maxLength="255"
                         />
                         {errors.text_content && <div className="text-[#B91C1C] text-sm mt-1">{errors.text_content}</div>}
-                    </div>
-
-                    <div className="space-y-2">
-                        <p className="text-xl text-[#1E3A5F]">
-                            Date
-                            <span className="text-[#B91C1C]"> *</span>
-                        </p>
-                        <input
-                            type="date"
-                            value={data.date}
-                            onChange={e => setData('date', e.target.value)}
-                            className="text-[#1E3A5F] text-base font-fustat-medium bg-[#F8FBFD] w-full h-12 border-[#CBD5E1] border-2 rounded-md outline-none focus:outline-none focus:ring-0 focus:border-[#1E3A5F] px-3"
-                        />
-                        {errors.date && <div className="text-[#B91C1C] text-sm mt-1">{errors.date}</div>}
                     </div>
 
                     {/* form buttons */}
