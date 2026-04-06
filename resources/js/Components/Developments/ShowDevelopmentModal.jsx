@@ -28,7 +28,7 @@ export default function ShowDevelopmentModal({ isOpen, onClose, development, onD
                         <p className="text-3xl text-black">{development.text_content}</p>
                     </div>
                     <div>
-                        <p className="text-[#EBFFF2] text-base font-fustat-medium">{formatDate(development.created_at)}</p>
+                        <p className="text-base text-black font-fustat-medium">{formatDate(development.created_at)}</p>
                     </div>
                 </div>
                 
