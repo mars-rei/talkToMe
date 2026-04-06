@@ -16,8 +16,8 @@ class DevelopmentController extends Controller
     public function index()
     {
         $developments = Auth::user()->developments()
-            ->orderBy('date', 'desc')
-            ->get(['id', 'user_id', 'date', 'text_content']);
+            ->orderBy('created_at', 'desc')
+            ->get(['id', 'user_id', 'text_content', 'created_at']);
 
         return Inertia::render('Developments/Index', [
             'developments' => $developments

@@ -1,3 +1,5 @@
+// last updated on 06/04 by mars
+
 const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) => {
 
   const developmentCount = developments?.length || 0;
@@ -39,7 +41,7 @@ const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) 
           className="w-52 h-52 flex flex-col cursor-pointer justify-center text-center p-4 space-y-4 items-center bg-[#E6D795] shadow-[8px_8px_20px_grey] hover:-translate-y-1 hover:-translate-x-1 group-hover:bg-[#B5446E] transition "
         >
           <p className="text-xl font-bold ">{development.text_content}</p>
-          <p className="text-xs">{formatDate(development.date)}</p>
+          <p className="text-xs">{formatDate(development.created_at)}</p>
         </div>
       ))}
 

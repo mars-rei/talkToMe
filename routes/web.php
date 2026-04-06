@@ -1,5 +1,7 @@
 <?php
 
+# last updated on 03/04 by mars
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +13,12 @@ use Illuminate\Http\Request;
 
 // for journals
 use App\Http\Controllers\JournalController;
+
+// for entries
+use App\Http\Controllers\EntryController;
+
+// for affirmations
+use App\Http\Controllers\AffirmationController;
 
 // for developments
 use App\Http\Controllers\DevelopmentController;
@@ -43,12 +51,23 @@ Route::get('/dashboard', function () {
         ->orderBy('id', 'desc')
         ->get(['id', 'title']) : [];
 
+    $entries = $user ? $user->entries()
+        ->with('media') 
+        ->orderBy('entries.created_at', 'desc')
+        ->get() : [];
+
     $developments = $user ? $user->developments()
-        ->orderBy('date', 'desc')
-        ->get(['id', 'date', 'text_content']) : [];
+        ->orderBy('developments.created_at', 'desc')
+        ->get(['id', 'text_content', 'developments.created_at']) : [];
+
+    $affirmations = $user ? $user->affirmations()
+        ->orderBy('id', 'desc')
+        ->get(['id', 'file_path', 'file_type']) : [];
 
     return Inertia::render('Dashboard', [
         'journals' => $journals,
+        'entries' => $entries,
+        'affirmations' => $affirmations,
         'developments' => $developments,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -62,6 +81,27 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/journals/{journal}', [JournalController::class, 'update'])->name('journals.update');
     Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journals.destroy');
     Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('journals.show');
+});
+
+// entry routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/entries', [EntryController::class, 'index'])->name('entries.index');
+    Route::get('/entries/create', [EntryController::class, 'create'])->name('entries.create');
+    Route::post('/entries', [EntryController::class, 'store'])->name('entries.store');
+    Route::get('/entries/{entry}', [EntryController::class, 'show'])->name('entries.show');
+    Route::delete('/entries/{entry}', [EntryController::class, 'destroy'])->name('entries.destroy');
+});
+
+// affirmation routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/affirmations', [AffirmationController::class, 'index'])->name('affirmations.index');
+    Route::get('/affirmations/create', [AffirmationController::class, 'create'])->name('affirmations.create'); 
+    Route::post('/affirmations', [AffirmationController::class, 'store'])->name('affirmations.store');
+    Route::delete('/affirmations/{affirmation}', [AffirmationController::class, 'destroy'])->name('affirmations.destroy');
+    Route::get('/affirmations/{affirmation}', [AffirmationController::class, 'show'])->name('affirmations.show');
+
+    Route::get('/affirmations/{affirmation}/download', [AffirmationController::class, 'download'])
+    ->name('affirmations.download');
 });
 
 // development routes

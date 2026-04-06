@@ -1,16 +1,10 @@
-// last updated on 04/04 by mars
+// last updated on 02/04 by mars
 
-export default function ShowDevelopmentModal({ isOpen, onClose, development, onDelete }) {
-    if (!isOpen || !development) return null;
+export default function ShowAffirmationModal({ isOpen, onClose, affirmation, onDelete }) {
+    if (!isOpen || !affirmation) return null;
 
-    const formatDate = (dateString) => {
-        if (!dateString) return '';
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric'
-        });
+    const getFileUrl = (filePath) => {
+        return `/storage/${filePath}`;
     };
 
     return (
@@ -24,17 +18,15 @@ export default function ShowDevelopmentModal({ isOpen, onClose, development, onD
                 </div>
 
                 <div className="flex flex-col">
-                    <div>
-                        <p className="text-sm text-gray-400">{development.text_content}</p>
-                    </div>
-                    <div>
-                        <p className="text-[#EBFFF2] text-base font-fustat-medium">{formatDate(development.created_at)}</p>
-                    </div>
+                    <img 
+                        src={getFileUrl(affirmation.file_path)} 
+                        className="object-contain"
+                    />
                 </div>
 
                 <div className="flex justify-end space-x-4">
                     <button
-                        onClick={() => onDelete(development)}
+                        onClick={() => onDelete(affirmation)}
                         className="justify-center flex items-center rounded-full border border-transparent bg-[#872328] px-8 py-2 text-md text-[#EBFFF2]"
                     >
                         Delete

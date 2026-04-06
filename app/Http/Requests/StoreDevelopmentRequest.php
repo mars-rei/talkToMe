@@ -24,7 +24,6 @@ class StoreDevelopmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => 'required|date',
             'text_content' => 'required|string|max:255', 
         ];
     }

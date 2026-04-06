@@ -1,6 +1,6 @@
 <?php
 
-// last updated on 30/03 by mars
+// last updated on 03/04 by mars
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('entry_id')->constrained()->onDelete('cascade');
             $table->string('file_path', 255);
             $table->string('file_type', 4);
-            $table->string('caption', 150);
+            $table->string('caption', 150)->nullable();
 
             $table->timestamps();
         });

@@ -1,8 +1,11 @@
 <?php
 
-# last updated on 30/03 by mars
+# last updated on 02/04 by mars
 
 namespace App\Models;
+
+use App\Models\Entry;
+use App\Models\Journal;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,6 +55,11 @@ class User extends Authenticatable
     public function journals()
     {
         return $this->hasMany(Journal::class);
+    }
+
+    public function entries()
+    {
+        return $this->hasManyThrough(Entry::class, Journal::class);
     }
 
     // a user can have many affirmations

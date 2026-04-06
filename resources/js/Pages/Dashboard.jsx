@@ -1,4 +1,4 @@
-// last updated on 02/04 by valeria (styling)
+// last updated on 06/04 by mars
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -8,6 +8,17 @@ import JournalShow from '@/Layouts/Journals/Show';
 import CreateJournalModal from '@/Components/Journals/CreateJournalModal';
 import EditJournalModal from '@/Components/Journals/EditJournalModal';
 import DeleteJournalModal from '@/Components/Journals/DeleteJournalModal';
+
+// entry
+import CreateEntryModal from '@/Components/Entries/CreateEntryModal';
+import ShowEntryModal from '@/Components/Entries/ShowEntryModal';
+import DeleteEntryModal from '@/Components/Entries/DeleteEntryModal';
+
+// affirmation
+import Affirmations from '@/Layouts/Affirmations/Index';
+import ShowAffirmationModal from '@/Components/Affirmations/ShowAffirmationModal';
+import CreateAffirmationModal from '@/Components/Affirmations/CreateAffirmationModal';
+import DeleteAffirmationModal from '@/Components/Affirmations/DeleteAffirmationModal';
 
 // development
 import Developments from '@/Layouts/Developments/Index';
@@ -21,7 +32,12 @@ import { useState } from 'react';
 
 export default function Dashboard() {
     // all the user's journals and entries
-    const { journals: journals, entries: entries, developments: developments } = usePage().props;
+    const { 
+        journals: journals, 
+        entries: entries, 
+        affirmations: affirmations,
+        developments: developments 
+    } = usePage().props;
 
     // to get user's name
     const user = usePage().props.auth.user;
@@ -32,11 +48,17 @@ export default function Dashboard() {
     };
     const [activeView, setActiveView] = useState('journals');
     
+
     // for single journal views
     const [selectedJournal, setSelectedJournal] = useState(null);
 
     // for viewing entries for each journal
     const [journalEntryId, setJournalEntryId] = useState(null);
+
+
+    // for single entry views
+    const [selectedEntry, setSelectedEntry] = useState(null);
+
 
     // journal modal states 
     const [showCreateJournalModal, setShowCreateJournalModal] = useState(false);
@@ -47,10 +69,16 @@ export default function Dashboard() {
 
     // entry modal states
     const [showCreateEntryModal, setShowCreateEntryModal] = useState(false);
-    const [showEditEntryModal, setShowEditEntryModal] = useState(false);
     const [showShowEntryModal, setShowShowEntryModal] = useState(false);
     const [showDeleteEntryModal, setShowDeleteEntryModal] = useState(false);
-    const [selectedEntry, setSelectedEntry] = useState(null);
+    const [entryToDelete, setEntryToDelete] = useState(null);
+
+    // affirmation modal states
+    const [showCreateAffirmationModal, setShowCreateAffirmationModal] = useState(false);
+    const [showShowAffirmationModal, setShowShowAffirmationModal] = useState(false);
+    const [showDeleteAffirmationModal, setShowDeleteAffirmationModal] = useState(false);
+    const [selectedAffirmation, setSelectedAffirmation] = useState(null);
+    const [affirmationToDelete, setAffirmationToDelete] = useState(null);
 
     // development modal states
     const [showCreateDevelopmentModal, setShowCreateDevelopmentModal] = useState(false);
@@ -85,16 +113,22 @@ export default function Dashboard() {
         setShowShowEntryModal(true);
     };
 
-    const handleEditEntryClick = (entry) => {
-        setSelectedEntry(entry);
-        setShowEditEntryModal(true);
+    const handleDeleteEntryClick = (entry) => {
+        setEntryToDelete(entry); 
+        setShowDeleteEntryModal(true);
         setShowShowEntryModal(false);
     };
 
-    const handleDeleteEntryClick = (entry) => {
-        setSelectedEntry(media); {/*is this wrong?*/}
-        setShowDeleteEntryModal(true);
-        setShowShowEntryModal(false);
+    // affirmation handlers
+    const handleAffirmationClick = (affirmation) => {
+        setSelectedAffirmation(affirmation);
+        setShowShowAffirmationModal(true);
+    };
+
+    const handleDeleteAffirmationClick = (affirmation) => {
+        setAffirmationToDelete(affirmation);
+        setShowDeleteAffirmationModal(true);
+        setShowShowAffirmationModal(false);
     };
 
     // development handlers
@@ -119,11 +153,16 @@ export default function Dashboard() {
 
         // entry modals
         setShowCreateEntryModal(false);
-        setShowEditEntryModal(false);
         setShowShowEntryModal(false);
         setShowDeleteEntryModal(false);
         setSelectedEntry(null);
         setJournalEntryId(null);
+
+        // affirmation modals
+        setShowCreateAffirmationModal(false);
+        setShowDeleteAffirmationModal(false);
+        setAffirmationToDelete(null);
+        setSelectedAffirmation(null);
 
         // development modals
         setShowCreateDevelopmentModal(false);
@@ -136,6 +175,12 @@ export default function Dashboard() {
     const handleJournalCreated = () => { router.reload(); };
     const handleJournalUpdated = () => { router.reload(); handleCloseModals(); };
     const handleJournalDeleted = () => { router.reload(); handleCloseModals(); };
+
+    const handleEntryCreated = () => { router.reload(); };
+    const handleEntryDeleted = () => { router.reload(); handleCloseModals(); };
+
+    const handleAffirmationCreated = () => { router.reload(); };
+    const handleAffirmationDeleted = () => { router.reload(); handleCloseModals(); };
 
     const handleDevelopmentCreated = () => { router.reload(); };
     const handleDevelopmentDeleted = () => { router.reload(); handleCloseModals(); };
@@ -187,7 +232,7 @@ export default function Dashboard() {
                                 {selectedJournal ? (
                                     <JournalShow 
                                         journal={selectedJournal}
-                                        allEntries={entries}
+                                        entries={entries}
                                         onBack={handleBackToJournals}
                                         onEdit={handleEditJournal}
                                         onDelete={handleDeleteJournal}
@@ -215,33 +260,19 @@ export default function Dashboard() {
                             </>
                         )}
 
-
                         {/* Positive Wall  */}
                         {activeView === 'positiveWall' && (
-                            <div>
-                                <p className='mb-2 text-xl mt-2 text-gray-600'>
-                                    Share your positive thoughts!
-                                </p>
-                            </div>
-                        )}
-                        {/*
-                        {activeView === 'positiveWall' && (
                             <>
-                                {selectedPost ? (
-                                    <PositiveWallShow
-                                        post={selectedPost}
-                                        onEdit={handleShowEditPost}
-                                        onDelete={handleDeletePost}
-                                    />
-                                ) : (
-                                    <PositiveWall
-                                        posts={wallPosts}
-                                        onPostClick={handleWallPostClick}
-                                    />
-                                )}
+                                <div>
+                                    <h1 className="text-2xl font-bold">Affirmations</h1>
+                                </div>
+                                <Affirmations
+                                    affirmations={affirmations}
+                                    onAffirmationClick={handleAffirmationClick}
+                                    onCreateClick={() => setShowCreateAffirmationModal(true)}
+                                />
                             </>
                         )}
-                        */}
 
                         {/* Growth Notes  */}
                         {activeView === 'growthNotes' && (
@@ -275,6 +306,45 @@ export default function Dashboard() {
                         onClose={handleCloseModals}
                         journal={journalToDelete}
                         onSuccess={handleJournalDeleted}
+                    />
+
+                    {/* entry modals */}
+                    <CreateEntryModal
+                        isOpen={showCreateEntryModal}
+                        onClose={handleCloseModals}
+                        onSuccess={handleEntryCreated}
+                        selectedJournalId={journalEntryId}
+                    />
+                    <ShowEntryModal
+                        isOpen={showShowEntryModal}
+                        onClose={handleCloseModals}
+                        entry={selectedEntry}
+                        onDelete={handleDeleteEntryClick}  
+                    />
+                    <DeleteEntryModal
+                        isOpen={showDeleteEntryModal}
+                        onClose={handleCloseModals}
+                        entry={entryToDelete}
+                        onSuccess={handleEntryDeleted}
+                    />
+
+                    {/* affirmation modals */}
+                    <CreateAffirmationModal
+                        isOpen={showCreateAffirmationModal}
+                        onClose={handleCloseModals}
+                        onSuccess={handleAffirmationCreated}
+                    />
+                    <ShowAffirmationModal
+                        isOpen={showShowAffirmationModal}
+                        onClose={handleCloseModals}
+                        affirmation={selectedAffirmation}
+                        onDelete={handleDeleteAffirmationClick}  
+                    />
+                    <DeleteAffirmationModal
+                        isOpen={showDeleteAffirmationModal}
+                        onClose={handleCloseModals}
+                        affirmation={affirmationToDelete} 
+                        onSuccess={handleAffirmationDeleted}
                     />
 
                     {/* development modals */}

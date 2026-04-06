@@ -1,5 +1,7 @@
 <?php
 
+# last updated on 02/04 by mars
+
 namespace App\Http\Controllers;
 
 use App\Models\Affirmation;
@@ -7,6 +9,8 @@ use App\Http\Requests\StoreAffirmationRequest;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Storage;
 
 class AffirmationController extends Controller
 {
@@ -39,12 +43,29 @@ class AffirmationController extends Controller
     {
         $validated = $request->validated();
         
-        $validated['user_id'] = Auth::id();
+        $user = Auth::user();
 
-        $affirmation = Affirmation::create($validated);
+        $file = $request->file('file');
+        $file_name = $file->getClientOriginalName();
+        $file_type = $file->getClientOriginalExtension();
+
+        $folderPath = 'affirmations/' . $user->id;
+
+        $localPath = $file->storeAs(
+            $folderPath, 
+            time() . '_' . $file_name, 
+            'public'
+        );
+
+        $affirmation = Affirmation::create([
+            'user_id' => Auth::id(),
+            'file_path' => $localPath, 
+            'file_type' => $file_type,
+        ]);
 
         return redirect()->route('dashboard')
             ->with('success', 'Affirmation created successfully!');
+
     }
 
     /**
@@ -70,9 +91,30 @@ class AffirmationController extends Controller
             abort(403);
         }
 
+        // remove from local storage
+        if (Storage::disk('public')->exists($affirmation->file_path)) {
+            Storage::disk('public')->delete($affirmation->file_path);
+        }
+
         $affirmation->delete();
 
         return redirect()->route('dashboard')
             ->with('success', 'Affirmation deleted successfully.');
+    }
+
+    // download affirmation file
+    public function download(Affirmation $affirmation)
+    {
+        if ($affirmation->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $filePath = storage_path('app/public/' . $affirmation->file_path);
+        
+        if (!file_exists($filePath)) {
+            abort(404);
+        }
+
+        return response()->download($filePath);
     }
 }
