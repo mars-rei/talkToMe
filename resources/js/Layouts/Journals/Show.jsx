@@ -102,7 +102,7 @@ export default function JournalShow({
                             </button>
                         </div>
                         
-                        <div className="flex ">
+                        <div className="flex gap-4">
                             <button
                                 onClick={() => onDelete(journal)}
                                 className="rounded-full bg-[#FF383C] text-white px-6 py-2 text-md hover:bg-[#991B1B] transition"

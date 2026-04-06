@@ -1,4 +1,4 @@
-// last updated on 06/04 by mars
+// last updated on 06/04 by valeria
 
 const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) => {
 
@@ -38,7 +38,7 @@ const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) 
         <div 
           key={development.id} 
           onClick={() => onDevelopmentClick(development)}
-          className="w-52 h-52 flex flex-col cursor-pointer justify-center text-center p-4 space-y-4 items-center bg-[#E6D795] shadow-[8px_8px_20px_grey] hover:-translate-y-1 hover:-translate-x-1 group-hover:bg-[#B5446E] transition "
+          className="w-52 h-52 flex flex-col cursor-pointer justify-center text-center p-4 space-y-4 items-center bg-[#FFEE8C]/80 shadow-[8px_8px_20px_grey] hover:-translate-y-1 hover:-translate-x-1 group-hover:bg-[#B5446E] transition "
         >
           <p className="text-xl font-bold ">{development.text_content}</p>
           <p className="text-xs">{formatDate(development.created_at)}</p>
@@ -49,10 +49,10 @@ const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) 
         onClick={onCreateClick}
         className="w-52 h-52 flex flex-col cursor-pointer group shadow-lg"
       >
-          <div className="flex-grow bg-[#E6D795]/30 p-6 flex items-center justify-center group-hover:bg-[#B5446E]">
+          <div className="flex-grow bg-[#E6D795]/70 p-6 flex items-center justify-center group-hover:bg-[#DBCC79] transition">
             <i className="text-[#111317] fa fa-plus fa-2x -mb-6"></i>
           </div>
-          <div className="h-12 bg-[#E6D795]/30 p-4 flex items-center group-hover:bg-[#B5446E]">
+          <div className="h-12 bg-[#E6D795]/70 p-4 flex items-center group-hover:bg-[#DBCC79] transition">
             <p>Add New Development</p>
           </div>
       </div>

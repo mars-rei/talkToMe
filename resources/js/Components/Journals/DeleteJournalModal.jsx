@@ -42,7 +42,7 @@ export default function DeleteJournalModal({ isOpen, onClose, journal, onSuccess
                     <button
                         onClick={handleDelete}
                         disabled={processing}
-                        className="justify-center flex items-center rounded-full border border-transparent bg-[#1E3A5F] px-8 py-2 text-md text-white disabled:opacity-25 hover:bg-[#2C4E73] transition"
+                        className="justify-center flex items-center rounded-full border border-transparent bg-[#FF383C] px-8 py-2 text-md text-white disabled:opacity-25 hover:bg-[#991B1B] transition"
                     >
                         {processing ? 'Deleting...' : 'Delete Journal'}
                     </button>
