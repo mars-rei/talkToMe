@@ -18,15 +18,15 @@ export default function DeleteJournalModal({ isOpen, onClose, journal, onSuccess
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-[#111317] border-[#EBFFF2] border-2 p-8 sm:rounded-lg max-w-md w-full">
+            <div className="bg-[#F8FBFD] border-[#DCE8F2] border-2 p-8 sm:rounded-lg max-w-md w-full">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="font-fustat-medium text-2xl text-[#EBFFF2]">Delete Journal</h2>
-                    <button onClick={onClose} className="text-[#EBFFF2] hover:text-[#B5446E]">
+                    <h2 className="font-fustat-medium text-2xl text-[#1E3A5F]">Delete Journal</h2>
+                    <button onClick={onClose} className="text-[#1E3A5F] hover:text-[#2C4E73]">
                         <i className="fa fa-times fa-xl"></i>
                     </button>
                 </div>
 
-                <p className="text-[#EBFFF2] font-fustat-medium mb-6">
+                <p className="text-[#1E3A5F] font-fustat-medium mb-6">
                     Are you sure you want to delete <span className="font-fustat-bold">"{journal.title}"</span>? 
                     This action cannot be undone.
                 </p>
@@ -35,14 +35,14 @@ export default function DeleteJournalModal({ isOpen, onClose, journal, onSuccess
                     <button
                         onClick={onClose}
                         disabled={processing}
-                        className="justify-center flex items-center rounded-full border-2 border-[#B5446E] text-[#EBFFF2] px-8 py-2 text-md"
+                        className="justify-center flex items-center rounded-full border-2 border-[#1E3A5F] text-[#1E3A5F] px-8 py-2 text-md hover:bg-[#1E3A5F] hover:text-white transition"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={handleDelete}
                         disabled={processing}
-                        className="justify-center flex items-center rounded-full border border-transparent bg-[#872328] px-8 py-2 text-md text-[#EBFFF2]"
+                        className="justify-center flex items-center rounded-full border border-transparent bg-[#1E3A5F] px-8 py-2 text-md text-white disabled:opacity-25 hover:bg-[#2C4E73] transition"
                     >
                         {processing ? 'Deleting...' : 'Delete Journal'}
                     </button>

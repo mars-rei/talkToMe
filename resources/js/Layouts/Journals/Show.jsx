@@ -1,4 +1,4 @@
-// last updated on 04/04 by mars
+// last updated on 06/04 by mars
 
 export default function JournalShow({ 
     journal, 
@@ -84,28 +84,28 @@ export default function JournalShow({
             <div className="mb-8">
                 <button 
                     onClick={onBack}
-                    className="text-[#EBFFF2] hover:text-[#B5446E] transition-colors flex items-center gap-2 mb-4"
+                    className="text-[#1E3A5F] hover:text-[#2C4E73] transition-colors flex items-center gap-2 mb-4"
                 >
                     <i className="fa fa-arrow-left"></i>
                     <span>Back to all journals</span>
                 </button>
 
-                <div className="bg-gray-800 rounded-lg p-6 mb-8">
+                {/* Journal header */}
+                <div className="mb-8">
                     <div className="flex justify-between items-start">
-                        <div>
-                            <h1 className="text-2xl text-[#EBFFF2] mb-2">{journal.title}</h1>
+                        <div className="flex items-center gap-3">
+                            <h1 className="text-3xl font-bold text-black mb-2">
+                                {journal.title}
+                            </h1>
+                            <button onClick={() => onEdit(journal)}>
+                                <i className="fa fa-pencil fa-xl text-black hover:text-[#2C4E73]"></i>
+                            </button>
                         </div>
                         
-                        <div className="flex gap-4">
-                            <button
-                                onClick={() => onEdit(journal)}
-                                className="justify-center flex items-center rounded-full bg-[#B5446E] text-[#EBFFF2] px-8 py-2 text-md"
-                            >
-                                Edit Details
-                            </button>
+                        <div className="flex ">
                             <button
                                 onClick={() => onDelete(journal)}
-                                className="justify-center flex items-center rounded-full border border-transparent bg-[#872328] px-8 py-2 text-md text-[#EBFFF2]"
+                                className="rounded-full bg-[#FF383C] text-white px-6 py-2 text-md hover:bg-[#991B1B] transition"
                             >
                                 Delete
                             </button>
@@ -114,10 +114,11 @@ export default function JournalShow({
                 </div>
 
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl text-white">Journal Entries</h2>
+                    <h2 className="text-xl text-[#1E3A5F]">Journal Entries</h2>
+
                     <button
                         onClick={() => onAddEntryClick(journal.id)}
-                        className="justify-center flex items-center rounded-full bg-[#B5446E] text-[#EBFFF2] px-8 py-2 text-md"
+                        className="rounded-full bg-[#1E3A5F] text-white px-6 py-2 text-md hover:bg-[#2C4E73] transition"
                     >
                         <i className="fa fa-plus mr-2"></i>
                         Add Entry
@@ -126,8 +127,10 @@ export default function JournalShow({
             </div>
 
             {journalEntries.length === 0 ? (
-                <div className="text-white text-center py-12 bg-[#1E1E24] rounded-lg">
-                    <p className="mb-4">No entries in this journal yet.</p>
+                <div className="text-center py-12 bg-[#F8FBFD] border border-[#DCE8F2] rounded-xl">
+                    <p className="text-[#6B7280] mb-3">
+                        No entries in this journal yet.
+                    </p>
                 </div>
             ) : (
                 <div className="space-y-4">
@@ -135,13 +138,18 @@ export default function JournalShow({
                         <div 
                             key={entry.id}
                             onClick={() => onEntryClick(entry)}
-                            className="w-full flex flex-col bg-slate-300 rounded-md cursor-pointer p-4"
-                        >
-                            <div>
-                                <p className="text-sm truncate">{formatDate(entry.created_at)}</p>
+                            className="w-full h-52 flex flex-col cursor-pointer group"
+                        >      
+                            <div className="h-12 bg-[#F8FBFD] border border-[#DCE8F2] rounded-t-xl p-4 flex items-center group-hover:bg-[#EEF4F8]">
+                                <p className="text-sm text-[#1F2937] truncate">
+                                    {formatDate(entry.created_at)}
+                                </p>
                             </div>    
-                            <div>
-                                <p className="text-sm truncate">{entry.text_content}</p>
+
+                            <div className="h-12 bg-[#F8FBFD] border border-[#DCE8F2] rounded-b-xl p-4 flex items-center group-hover:bg-[#EEF4F8]">
+                                <p className="text-sm text-[#6B7280] truncate">
+                                    {entry.text_content}
+                                </p>
                             </div>
                             <div>
                                 <p className="text-sm truncate">Mood: {entry.mood}</p>

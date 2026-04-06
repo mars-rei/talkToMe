@@ -1,4 +1,4 @@
-// last updated on 03/04 by mars
+// last updated on 06/04 by mars
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -197,25 +197,25 @@ export default function Dashboard() {
             <div className="flex min-h-screen">
 
                 {/*Side Navbar*/}
-                <aside className="w-60 bg-white shadow-md">
-                    <nav className="p-1 space-y-3">
+                <aside className="w-60">
+                    <nav className="p-4 space-y-3">
                         <p 
                             onClick={() => handleViewChange('journals')}
-                            className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 ${activeView === 'journals' ? 'text-[#003c66] bg-gray-100' : ''}`}
+                            className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-white ${activeView === 'journals' ? 'text-black bg-white font-bold shadow-md' : ''}`}
                         >
                             <img src="/imgs/journal.png" alt="Journals" className="w-7 h-7"/>
                             Journals
                         </p>
                         <p 
                             onClick={() => handleViewChange('positiveWall')}
-                            className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 ${activeView === 'positiveWall' ? 'text-[#003c66] bg-gray-100' : ''}`}
+                            className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-white ${activeView === 'positiveWall' ? 'text-black bg-white font-bold shadow-md' : ''}`}
                         >
                             <img src="/imgs/add.png" alt="Positive Wall" className="w-7 h-7"/>
                             Positive Wall
                         </p>
                         <p 
                             onClick={() => handleViewChange('growthNotes')}
-                            className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-200 ${activeView === 'growthNotes' ? 'text-[#003c66] bg-gray-100' : ''}`}
+                            className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-white ${activeView === 'growthNotes' ? 'text-black bg-white font-bold shadow-md' : ''}`}
                         >
                             <img src="/imgs/sticky-note.png" alt="Growth Notes" className="w-7 h-7"/>
                             Growth Notes
@@ -224,18 +224,11 @@ export default function Dashboard() {
                 </aside>
 
                 {/* Main Content */}
-                <main className="flex-1">
+                <main className="flex-1 pt-4 bg-white rounded-tl-3xl">
                     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                         {/* Journals  */}
                         {activeView === 'journals' && (
                             <>
-                                <div>
-                                    <h1 className="text-3xl font-bold">Welcome Back, {user.name}</h1> {/* need to add user name */}
-                                    <p className='mb-2 text-xl mt-2 text-gray-600'>
-                                        How are you feeling today?
-                                    </p>
-                                </div>
-
                                 {selectedJournal ? (
                                     <JournalShow 
                                         journal={selectedJournal}
@@ -250,11 +243,19 @@ export default function Dashboard() {
                                         }}
                                     />
                                 ) : (
-                                    <Journals
-                                        journals={journals}
-                                        onJournalClick={handleJournalClick}
-                                        onCreateClick={() => setShowCreateJournalModal(true)}
-                                    />
+                                    <>
+                                        <div>
+                                            <h1 className="text-3xl font-bold">Welcome Back, {user.name}</h1>
+                                            <p className='mb-10 text-xl mt-2 text-black-600'>
+                                                How are you feeling today?
+                                            </p>
+                                        </div>
+                                        <Journals
+                                            journals={journals}
+                                            onJournalClick={handleJournalClick}
+                                            onCreateClick={() => setShowCreateJournalModal(true)}
+                                        />
+                                    </>
                                 )}
                             </>
                         )}

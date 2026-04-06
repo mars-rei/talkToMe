@@ -7,7 +7,7 @@ export default function AuthenticatedLayout({ children }) {
     const user = usePage().props.auth.user;
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-[#7495D9]/35 shadow-xl">
             <nav>
                 <div className="flex justify-between items-center px-4 h-16">
                     <Link href="/dashboard" className="text-3xl">
