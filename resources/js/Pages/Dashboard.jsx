@@ -1,4 +1,4 @@
-// last updated on 06/04 by mars
+// last updated on 09/04 by valeria
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -197,7 +197,7 @@ export default function Dashboard() {
             <div className="flex min-h-screen">
 
                 {/*Side Navbar*/}
-                <aside className="w-60">
+                <aside className="w-60 flex-shrink-0">
                     <nav className="p-4 space-y-3">
                         <p 
                             onClick={() => handleViewChange('journals')}

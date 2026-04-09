@@ -1,4 +1,4 @@
-// last updated on 04/04 by mars
+// last updated on 09/04 by valeria
 
 export default function ShowEntriesModal({ isOpen, onClose, entry, onDelete }) {
     if (!isOpen || !entry) return null;
@@ -85,35 +85,41 @@ export default function ShowEntriesModal({ isOpen, onClose, entry, onDelete }) {
     return (
 
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-[#111317] border-[#EBFFF2] border-2 p-4 sm:rounded-lg sm:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="font-fustat-medium text-2xl text-[#EBFFF2]">
+            <div className="bg-[#F8FBFD] border-[#DCE8F2] border-2 p-4 rounded-3xl sm:p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                {/*Entry date */}
+                <div className="flex justify-between border-b border-[#DCE8F2] items-center pb-4 mb-6">
+                    <h2 className="font-fustat-medium text-3xl text-[#1E3A5F]">
                         {formattedDate}
                     </h2>
-                    <button onClick={onClose} className="text-[#EBFFF2] hover:text-[#B5446E]">
+                    <button onClick={onClose} className="text-[#1E3A5F]">
                         <i className="fa fa-times fa-xl"></i>
                     </button>
                 </div>
 
+                {/*Entry mood and content */}
                 <div className="flex flex-col">
-                    <div>
-                        <p className="text-[#EBFFF2] text-base font-fustat-medium">{entry.text_content}</p>
+                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                        <p className="text-base text-gray-400">Mood</p>
+                        <p className="text-[#1E3A5F] border border-[#DCE8F2] uppercase px-4 py-1 rounded-full bg-[#EEF4F8] text-base font-fustat-medium">{entry.mood}</p>
                     </div>
-                    <div className="flex flex-row items-center space-x-1">
-                        <p className="text-base text-gray-400">Mood:</p>
-                        <p className="text-[#EBFFF2] text-base font-fustat-medium">{entry.mood}</p>
+                    <div className="relative">
+                        <div className="absolute left-0 top-0 h-full w-1 rounded-full bg-[#DCE8F2]"></div>
+                        <div className="pl-5">
+                        <p className="text-[#1E3A5F] text-base leading-8 font-fustat-medium">{entry.text_content}</p>
+                        </div>
                     </div>
                 </div>
 
+                {/*Entry media */}
                 <div>
                     {entry.media && entry.media.length > 0 && (
                         <div className="space-y-3 mt-4">
-                            <p className="text-xl text-[#EBFFF2] font-fustat-medium">
+                            <p className="text-xl text-[#1E3A5F] font-fustat-medium">
                                 Attached Media ({entry.media.length})
                             </p>
-                            <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4 sm-grid-cols-3">
                                 {entry.media.map((mediaItem) => (
-                                    <div key={mediaItem.id} className="border border-[#EBFFF2] rounded-md p-3">
+                                    <div key={mediaItem.id} className="border border-[#DCE8F2] rounded-md p-3 items-center justify-center">
                                         {renderMedia(mediaItem)}
                                     </div>
                                 ))}
@@ -123,10 +129,10 @@ export default function ShowEntriesModal({ isOpen, onClose, entry, onDelete }) {
                 </div>
 
                 {/* form buttons */}
-                <div className="flex justify-end space-x-4">
+                <div className="flex justify-end space-x-4 pt-4">
                     <button
                         onClick={() => onDelete(entry)}
-                        className="justify-center flex items-center rounded-full border border-transparent bg-[#872328] px-8 py-2 text-md text-[#EBFFF2]"
+                        className="justify-center flex items-center rounded-full border border-transparent bg-[#1E3A5F] px-8 py-2 text-md text-white hover:bg-[#1E3A5F]/90"
                     >
                         Delete
                     </button>
