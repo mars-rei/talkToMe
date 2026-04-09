@@ -1,4 +1,6 @@
-import { useForm } from '@inertiajs/react';
+// last updated on 09/04 by mars
+
+import { useForm, router } from '@inertiajs/react';
 import { useEffect } from 'react';
 
 export default function EditJournalModal({ isOpen, onClose, journal, onSuccess }) {
@@ -16,12 +18,22 @@ export default function EditJournalModal({ isOpen, onClose, journal, onSuccess }
 
     const submit = (e) => {
         e.preventDefault();
+        
         put(`/journals/${journal.id}`, {
             onSuccess: () => {
-                onSuccess();
+                onClose();
+                router.visit(window.location.href, {
+                    preserveScroll: true,
+                    preserveState: false,
+                });
+                if (onSuccess) onSuccess();
+            },
+            onError: (errors) => {
+                console.error('Update failed:', errors);
             },
         });
     };
+
 
     if (!isOpen || !journal) return null;
 

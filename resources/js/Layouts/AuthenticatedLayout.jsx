@@ -1,4 +1,4 @@
-// last updated on 26/03 by mars
+// last updated on 09/04 by mars
 
 import Dropdown from '@/Components/Dropdown';
 import { Link, usePage } from '@inertiajs/react';
@@ -7,15 +7,14 @@ export default function AuthenticatedLayout({ children }) {
     const user = usePage().props.auth.user;
 
     return (
-        <div className="min-h-screen bg-[#7495D9]/35 shadow-xl">
-            <nav>
+        <div className="h-screen flex flex-col bg-[#7495D9]/35 shadow-xl">
+            <nav className="flex-shrink-0"> 
                 <div className="flex justify-between items-center px-4 h-16">
                     <Link href="/dashboard" className="text-3xl">
                         TalkToMe
                     </Link>
 
                     <div className="flex items-center space-x-4 text-xl">
-
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
                             <div className="relative ms-3">
                                 <Dropdown>
@@ -51,7 +50,7 @@ export default function AuthenticatedLayout({ children }) {
                 </div>
             </nav>
 
-            <main>{children}</main>
+            <main className="flex-1 overflow-auto">{children}</main> 
         </div>
     );
 }

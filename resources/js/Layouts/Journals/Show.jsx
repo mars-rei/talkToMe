@@ -1,4 +1,4 @@
-// last updated on 09/04 by valeria
+// last updated on 09/04 by mars
 
 export default function JournalShow({ 
     journal, 
@@ -80,7 +80,7 @@ export default function JournalShow({
     const journalEntries = entries;
 
     return (
-        <div className="w-full min-w-0">
+        <div className="w-full min-w-0 pt-8">
             <div className="mb-8">
                 <button 
                     onClick={onBack}

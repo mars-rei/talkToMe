@@ -1,4 +1,4 @@
-// last updated on 06/04 by valeria
+// last updated on 09/04 by mars
 
 const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) => {
 
@@ -16,7 +16,7 @@ const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) 
 
   if (developmentCount === 0) {
     return (
-      <div className="flex flex-wrap gap-8">
+      <div className="pt-8 flex flex-wrap gap-8">
         <div 
           onClick={onCreateClick}
           className="w-52 h-52 flex flex-col cursor-pointer group mt-4"
@@ -33,7 +33,7 @@ const Developments = ({ developments = [], onDevelopmentClick, onCreateClick }) 
   }
 
   return (
-    <div className="flex flex-wrap gap-8 mt-4">
+    <div className="pt-8 flex flex-wrap gap-8 mt-4">
       {developments.map((development) => (
         <div 
           key={development.id} 

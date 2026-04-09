@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 02/04 by mars
+# last updated on 09/04 by mars
 
 namespace App\Http\Controllers;
 
@@ -63,9 +63,8 @@ class AffirmationController extends Controller
             'file_type' => $file_type,
         ]);
 
-        return redirect()->route('dashboard')
-            ->with('success', 'Affirmation created successfully!');
-
+        return redirect()->back()
+            ->with('success', 'Affirmation created successfully.');
     }
 
     /**
@@ -98,7 +97,7 @@ class AffirmationController extends Controller
 
         $affirmation->delete();
 
-        return redirect()->route('dashboard')
+        return redirect()->back()
             ->with('success', 'Affirmation deleted successfully.');
     }
 

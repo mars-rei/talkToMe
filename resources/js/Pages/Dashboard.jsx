@@ -1,4 +1,4 @@
-// last updated on 09/04 by valeria
+// last updated on 09/04 by mars
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -194,7 +194,7 @@ export default function Dashboard() {
             }
         >
             <Head title="Dashboard" />
-            <div className="flex min-h-screen">
+            <div className="flex h-full">
 
                 {/*Side Navbar*/}
                 <aside className="w-60 flex-shrink-0">
@@ -232,7 +232,7 @@ export default function Dashboard() {
                                 {selectedJournal ? (
                                     <JournalShow 
                                         journal={selectedJournal}
-                                        entries={entries}
+                                        entries={entries.filter(entry => entry.journal_id === selectedJournal?.id)} // now displaying entries for their own journals
                                         onBack={handleBackToJournals}
                                         onEdit={handleEditJournal}
                                         onDelete={handleDeleteJournal}
@@ -245,7 +245,7 @@ export default function Dashboard() {
                                 ) : (
                                     <>
                                         <div>
-                                            <h1 className="text-3xl font-bold">Welcome Back, {user.name}</h1>
+                                            <h1 className="text-3xl font-bold pt-8">Welcome Back, {user.name}</h1>
                                             <p className='mb-10 text-xl mt-2 text-black-600'>
                                                 How are you feeling today?
                                             </p>
@@ -264,7 +264,7 @@ export default function Dashboard() {
                         {activeView === 'positiveWall' && (
                             <>
                                 <div>
-                                    <h1 className="text-2xl font-bold">Affirmations</h1>
+                                    <h1 className="pt-8 text-2xl font-bold">Affirmations</h1>
                                 </div>
                                 <Affirmations
                                     affirmations={affirmations}
@@ -278,7 +278,7 @@ export default function Dashboard() {
                         {activeView === 'growthNotes' && (
                             <>
                                 <div>
-                                    <h1 className="text-2xl font-bold">Notes</h1>
+                                    <h1 className="pt-8 text-2xl font-bold">Notes</h1>
                                 </div>
                                 <Developments
                                     developments={developments}

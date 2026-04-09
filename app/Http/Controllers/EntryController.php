@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 04/04 by mars
+# last updated on 09/04 by mars
 
 namespace App\Http\Controllers;
 
@@ -21,8 +21,8 @@ class EntryController extends Controller
     {
         $entries = Auth::user()->entries()
             ->with('media')
-            ->orderBy('created_at', 'desc')
-            ->get(['entries.id', 'journal_id', 'text_content', 'mood', 'created_at']);
+            ->orderBy('entries.created_at', 'desc')
+            ->get(['entries.id', 'journal_id', 'text_content', 'mood', 'entries.created_at']);
 
         return Inertia::render('Entries/Index', [
             'entries' => $entries
@@ -85,7 +85,8 @@ class EntryController extends Controller
             }
         }
         
-        return redirect()->back()->with('success', 'Entry created successfully');
+        return redirect()->back()
+            ->with('success', 'Entry created successfully'); // goes back to dashboard - unsure on how to fix this
     }
 
     /**
@@ -124,7 +125,8 @@ class EntryController extends Controller
 
         $entry->delete();
 
-        return redirect()->back()->with('success', 'Entry deleted successfully.');
+        return redirect()->back()
+            ->with('success', 'Entry deleted successfully.');
     }
 
     public function downloadMedia(Media $media)

@@ -1,3 +1,5 @@
+// last updated on 09/04 by mars
+
 import { useState } from 'react';
 import { router } from '@inertiajs/react';
 
@@ -11,6 +13,8 @@ export default function DeleteJournalModal({ isOpen, onClose, journal, onSuccess
                 onSuccess();
             },
             onFinish: () => setProcessing(false),
+            preserveState: false,  
+            preserveScroll: true,
         });
     };
 

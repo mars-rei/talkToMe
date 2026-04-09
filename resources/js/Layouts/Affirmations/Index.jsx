@@ -1,4 +1,4 @@
-// last updated on 02/04 by mars
+// last updated on 09/04 by mars
 
 const Affirmations = ({ affirmations = [], onAffirmationClick, onCreateClick }) => {
 
@@ -11,7 +11,7 @@ const Affirmations = ({ affirmations = [], onAffirmationClick, onCreateClick }) 
 
   if (affirmationCount === 0) {
     return (
-      <div className="grid grid-cols-4 gap-8">
+      <div className="pt-8 grid grid-cols-4 gap-8">
         <div 
           onClick={onCreateClick}
           className="w-full h-52 flex flex-col cursor-pointer group"
@@ -29,7 +29,7 @@ const Affirmations = ({ affirmations = [], onAffirmationClick, onCreateClick }) 
   }
 
   return (
-    <div className="grid grid-cols-4 gap-8">
+    <div className="pt-8 grid grid-cols-4 gap-8">
       {affirmations.map((affirmation) => (
         <div 
           key={affirmation.id} 

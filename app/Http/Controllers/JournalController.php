@@ -1,6 +1,6 @@
 <?php
 
-# last updated on 03/04 by mars
+# last updated on 09/04 by mars
 
 namespace App\Http\Controllers;
 
@@ -62,7 +62,7 @@ class JournalController extends Controller
         $entries = Auth::user()->entries()
             ->with('media')
             ->where('journal_id', $journal->id)
-            ->orderBy('date', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return Inertia::render('Journals/Show', [
@@ -100,8 +100,8 @@ class JournalController extends Controller
             'title' => $validated['title']
         ]);
 
-        return redirect()->route('journals.show', $journal->id)
-            ->with('success', 'Journal details updated successfully.');
+        return redirect()->back()
+            ->with('success', 'Journal details updated successfully.'); // goes back to dashboard - unsure on how to fix this
     }
 
     /**
@@ -115,7 +115,7 @@ class JournalController extends Controller
 
         $journal->delete();
 
-        return redirect()->route('dashboard')
+        return redirect()->back()
             ->with('success', 'Journal deleted successfully.');
     }
 }

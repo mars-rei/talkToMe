@@ -1,4 +1,4 @@
-// last updated on 06/04 by valeria
+// last updated on 09/04 by mars
 
 import { Head } from '@inertiajs/react';
 import Layout from '@/Layouts/Layout';
@@ -22,7 +22,7 @@ export default function Welcome() {
                         </div>
                     </div>
                     <footer className="py-16 text-center text-sm">
-                        Group 30 - Last updated 06/04/26 by Valeria
+                        Group 30 - Last updated 09/04/26 by Mars
                     </footer>
                 </div>
             </Layout> 

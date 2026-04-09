@@ -1,4 +1,4 @@
-// last updated on 02/04 by mars
+// last updated on 09/04 by mars
 
 import { useForm } from '@inertiajs/react';
 import { useEffect } from 'react';
@@ -27,8 +27,8 @@ export default function CreateAffirmationModal({ isOpen, onClose, onSuccess }) {
                 console.error('Upload error:', errors);
             },
 
-            preserveState: false,
-            preserveScroll: false,
+            preserveState: true,
+            preserveScroll: true,
         });
     };
 
