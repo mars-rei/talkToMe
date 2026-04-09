@@ -1,4 +1,4 @@
-// last updated on 02/04 by mars
+// last updated on 09/04 by valeria
 
 import { useState } from 'react';
 import { router } from '@inertiajs/react';
@@ -20,15 +20,15 @@ export default function DeleteEntryModal({ isOpen, onClose, entry, onSuccess }) 
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-[#111317] border-[#EBFFF2] border-2 p-8 sm:rounded-lg max-w-md w-full">
+            <div className="bg-[#F8FBFD] border-[#DCE8F2] border-2 p-8 sm:rounded-lg max-w-md w-full">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="font-fustat-medium text-2xl text-[#EBFFF2]">Delete Journal Entry</h2>
-                    <button onClick={onClose} className="text-[#EBFFF2] hover:text-[#B5446E]">
+                    <h2 className="font-fustat-medium text-2xl text-[#1E3A5F]">Delete Journal Entry</h2>
+                    <button onClick={onClose} className="text-[#1E3A5F]">
                         <i className="fa fa-times fa-xl"></i>
                     </button>
                 </div>
 
-                <p className="text-[#EBFFF2] font-fustat-medium mb-6">
+                <p className="text-[#1E3A5F] font-fustat-medium mb-6">
                     Are you sure you want to delete this entry? 
                     This action cannot be undone.
                 </p>
@@ -37,14 +37,14 @@ export default function DeleteEntryModal({ isOpen, onClose, entry, onSuccess }) 
                     <button
                         onClick={onClose}
                         disabled={processing}
-                        className="justify-center flex items-center rounded-full border-2 border-[#B5446E] text-[#EBFFF2] px-8 py-2 text-md"
+                        className="justify-center flex items-center rounded-full border-2 border-[#1E3A5F] text-[#1E3A5F] px-8 py-2 text-md hover:bg-[#1E3A5F]/70"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={handleDelete}
                         disabled={processing}
-                        className="justify-center flex items-center rounded-full border border-transparent bg-[#872328] px-8 py-2 text-md text-[#EBFFF2]"
+                        className="justify-center flex items-center rounded-full border border-transparent bg-[#1E3A5F] px-8 py-2 text-md text-white hover:bg-[#1E3A5F]/90"
                     >
                         {processing ? 'Deleting...' : 'Delete Journal Entry'}
                     </button>

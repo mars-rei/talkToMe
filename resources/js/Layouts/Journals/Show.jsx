@@ -1,4 +1,4 @@
-// last updated on 06/04 by mars
+// last updated on 09/04 by valeria
 
 export default function JournalShow({ 
     journal, 
@@ -44,7 +44,7 @@ export default function JournalShow({
             return (
                 <img 
                     src={filePath} 
-                    className="max-h-40 rounded object-contain"
+                    className="max-h-20 rounded object-contain"
                 />
             );
         }
@@ -53,7 +53,7 @@ export default function JournalShow({
             return (
                 <video 
                     controls 
-                    className="max-h-40 rounded object-contain"
+                    className="max-h-20 rounded object-contain"
                 >
                     <source src={filePath} type={mimeType} />
                 </video>
@@ -80,7 +80,7 @@ export default function JournalShow({
     const journalEntries = entries;
 
     return (
-        <div>
+        <div className="w-full min-w-0">
             <div className="mb-8">
                 <button 
                     onClick={onBack}
@@ -92,9 +92,9 @@ export default function JournalShow({
 
                 {/* Journal header */}
                 <div className="mb-8">
-                    <div className="flex justify-between items-start">
-                        <div className="flex items-center gap-3">
-                            <h1 className="text-3xl font-bold text-black mb-2">
+                    <div className="flex justify-between items-start gap-4 flex-wrap">
+                        <div className="flex items-center gap-3 min-w-0">
+                            <h1 className="text-3xl font-bold text-black mb-2 break-words">
                                 {journal.title}
                             </h1>
                             <button onClick={() => onEdit(journal)}>
@@ -102,7 +102,7 @@ export default function JournalShow({
                             </button>
                         </div>
                         
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 flex-shrink-0">
                             <button
                                 onClick={() => onDelete(journal)}
                                 className="rounded-full bg-[#FF383C] text-white px-6 py-2 text-md hover:bg-[#991B1B] transition"
@@ -113,12 +113,12 @@ export default function JournalShow({
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-4 gap-4 flex-wrap">
                     <h2 className="text-xl text-[#1E3A5F]">Journal Entries</h2>
 
                     <button
                         onClick={() => onAddEntryClick(journal.id)}
-                        className="rounded-full bg-[#1E3A5F] text-white px-6 py-2 text-md hover:bg-[#2C4E73] transition"
+                        className="flex-shrink-0 px-4 py-1 rounded-full bg-white text-[#1E3A5F] border border-[#1E3A5F] text-md hover:bg-[#1E3A5F] hover:text-white transition"
                     >
                         <i className="fa fa-plus mr-2"></i>
                         Add Entry
@@ -133,32 +133,36 @@ export default function JournalShow({
                     </p>
                 </div>
             ) : (
-                <div className="space-y-4">
+                <div className="space-y-4 min-w-0 w-full mb-10">
                     {journalEntries.map(entry => (
                         <div 
                             key={entry.id}
                             onClick={() => onEntryClick(entry)}
-                            className="w-full h-52 flex flex-col cursor-pointer group"
-                        >      
-                            <div className="h-12 bg-[#F8FBFD] border border-[#DCE8F2] rounded-t-xl p-4 flex items-center group-hover:bg-[#EEF4F8]">
-                                <p className="text-sm text-[#1F2937] truncate">
+                            className="min-w-0 flex bg-[#F8FBFD] border border[#DCE8F2] hover:border-[#1E3A5F]/50 shadow-lg rounded-xl w-full flex-col cursor-pointer group overflow-hidden transition hover:-translate-y-0.5"
+                        >    
+                            {/* Entry date and modd */}  
+                            <div className="min-w-0 flex items-center justify-between p-4 border-b border-[#DCE8F2] shadow-sm">
+                                <p className="text-xl text-[#1E3A5F] truncate">
                                     {formatDate(entry.created_at)}
                                 </p>
-                            </div>    
+                                <div className="min-w-0 flex flex-wrap items-center gap-2">
+                                    <p className="text-sm truncate font-medium text-[#1E3A5F]">Mood</p>
+                                    <p className="text-sm uppercase bg-white border border-[#DCE8F2] rounded-full px-4 py-1 truncate">{entry.mood}</p>
+                                </div>
+                            </div>  
 
-                            <div className="h-12 bg-[#F8FBFD] border border-[#DCE8F2] rounded-b-xl p-4 flex items-center group-hover:bg-[#EEF4F8]">
-                                <p className="text-sm text-[#6B7280] truncate">
+                            {/* Entry content */}  
+                            <div className="min-w-0 bg-[#F8FBFD] p-4 flex border-b border-[#DCE8F2]">
+                                <p className="text-sm text-[#6B7280] line-clamp-3">
                                     {entry.text_content}
                                 </p>
                             </div>
-                            <div>
-                                <p className="text-sm truncate">Mood: {entry.mood}</p>
-                            </div>
 
+                            {/* Entry media */}  
                             {entry.media && entry.media.length > 0 && (
-                                <div className="mt-3 space-y-2">
-                                    <p className="text-sm font-semibold">Media:</p>
-                                    <div className="flex flex-wrap gap-2">
+                                <div className="p-4 min-w-0 overflow-hidden">
+                                    <p className="text-base text-[#1E3A5F] mb-2">Media</p>
+                                    <div className="flex flex-wrap gap-2 min-w-0">
                                         {entry.media.map(media => (
                                             <div key={media.id} className="relative">
                                                 {renderMediaPreview(media)}
