@@ -16,7 +16,7 @@ export default function ShowDevelopmentModal({ isOpen, onClose, development, onD
     return (
 
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
-            <div className="bg-[#FFEE8C] border-[#DCE8F2] border-2 p-4 shadow-2xl rounded-lg rotate-[-1deg] sm:p-8 max-h-[90vh] overflow-y-auto">
+            <div className="bg-[#FFEE8C] border-[#DCE8F2] p-4 shadow-2xl rounded-sm sm:p-8 max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-end mb-6">
                     <button onClick={onClose} className="text-[#1E3A5F] hover:text-[#2C4E73] transition">
                         <i className="fa fa-times fa-xl"></i>
@@ -32,7 +32,7 @@ export default function ShowDevelopmentModal({ isOpen, onClose, development, onD
                     </div>
                 </div>
                 
-                <div className="flex justify-end space-x-4">
+                <div className="flex justify-center space-x-4">
                     <button
                         onClick={() => onDelete(development)}
                         className="justify-center flex items-center rounded-full border border-transparent bg-[#FF383C] hover:bg-[#991B1B] px-8 py-2 text-md text-white"

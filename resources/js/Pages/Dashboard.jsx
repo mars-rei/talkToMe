@@ -224,7 +224,7 @@ export default function Dashboard() {
                 </aside>
 
                 {/* Main Content */}
-                <main className="flex-1 pt-4 bg-white rounded-tl-3xl">
+                <main className="flex-1 pt-4 bg-white rounded-tl-3xl overflow-y-auto">
                     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                         {/* Journals  */}
                         {activeView === 'journals' && (
