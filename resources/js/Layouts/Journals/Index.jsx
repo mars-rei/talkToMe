@@ -11,7 +11,7 @@ const Journals = ({ journals = [], onJournalClick, onCreateClick }) => {
           onClick={onCreateClick}
           className="w-52 h-52 flex flex-col cursor-pointer group"
         >
-            <div className="flex-grow relative bg-[#F8FBFD] shadow-xl rounded-2xl p-6 flex items-center justify-center group-hover:bg-[#EEF4F8] transition">
+            <div className="flex-grow relative bg-[#F6F9FD] border border-[#394A6B] shadow-lg rounded-2xl p-6 flex items-end justify-center group-hover:bg-[#394A6B]/40 transition">
               <div className="absolute -left-1 top-6 flex flex-col gap-12 items-center">
                 <div className="w-4 h-1 bg-black rounded"></div>
                 <div className="w-4 h-1 bg-black rounded"></div>
