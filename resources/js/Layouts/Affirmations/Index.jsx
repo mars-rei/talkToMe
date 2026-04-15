@@ -31,16 +31,24 @@ const Affirmations = ({ affirmations = [], onAffirmationClick, onCreateClick }) 
   return (
     <div className="pt-8 grid grid-cols-4 gap-8">
       {affirmations.map((affirmation) => (
+           //Jasmine
         <div 
           key={affirmation.id} 
           onClick={() => onAffirmationClick(affirmation)}
-          className="w-64 h-64 flex flex-col cursor-pointer justify-center text-center p-4 space-y-4 items-center bg-slate-500 rounded-md"
+          className="w-52 bg-white p-3 shadow-md hover:shadow-lg transition cursor-pointer"
         >
+            <div className="w-full h-40 overflow-hidden">
           <img 
             src={getFileUrl(affirmation.file_path)} 
-            className="object-contain"
+            className="w-full h-full object-cover"
           />
         </div>
+
+             <div className="pt-3 text-center">
+                 <p className="text-sm text-gray-600">Affirmation</p>
+            </div>
+        </div>
+                
       ))}
 
       <div 
