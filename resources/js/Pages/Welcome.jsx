@@ -11,7 +11,7 @@ export default function Welcome() {
             <Layout>
                 <div className="flex h-[calc(100vh-4rem)] w-full justify-center flex-col items-center gap-y-8">
                     <div className="text-3xl leading-12 text-center">
-                        <p>Welcome to <span>TalkToMe</span></p>
+                        <p>Welcome to</p>
                     </div>
                     <div className="flex flex-row items-center space-x-4">
                         <i className="fa fa-4x fa-book-bookmark"></i>
@@ -21,8 +21,11 @@ export default function Welcome() {
                             TalkToMe
                         </div>
                     </div>
-                    <footer className="py-16 text-center text-sm">
-                        Group 30 - Last updated 09/04/26 by Mars
+                    <footer className="py-16 text-center">
+                        <p className="text-2xl font-semibold pb-4">Group 30</p>
+
+                        <p className="text-md">Valeria Bassan • Imogen Dicen • Serina Hunjan</p>
+                        <p className="text-md">Jasmine Kaur • Seehem Mosaid • Disha Sharma</p>
                     </footer>
                 </div>
             </Layout> 

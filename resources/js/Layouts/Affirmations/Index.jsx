@@ -37,18 +37,13 @@ const Affirmations = ({ affirmations = [], onAffirmationClick, onCreateClick }) 
           onClick={() => onAffirmationClick(affirmation)}
           className="w-52 bg-white p-3 shadow-md hover:shadow-lg transition cursor-pointer"
         >
-            <div className="w-full h-40 overflow-hidden">
-          <img 
-            src={getFileUrl(affirmation.file_path)} 
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-             <div className="pt-3 text-center">
-                 <p className="text-sm text-gray-600">Affirmation</p>
-            </div>
-        </div>
-                
+          <div className="w-full h-40 overflow-hidden">
+            <img 
+              src={getFileUrl(affirmation.file_path)} 
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>      
       ))}
 
       <div 
