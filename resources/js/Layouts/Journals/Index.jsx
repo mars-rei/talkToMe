@@ -19,7 +19,7 @@ const Journals = ({ journals = [], onJournalClick, onCreateClick }) => {
                 <div className="w-4 h-1 bg-black rounded"></div>
               </div>
               <i className="absolute inset-0 flex items-center justify-center text-black fa fa-plus fa-2x"></i>
-              <p className="text-black font-lg font-bold text-center">Create new journal</p>
+              <p className="text-black font-lg text-center">Create new journal</p>
             </div>
         </div>
       </div>
@@ -59,7 +59,7 @@ const Journals = ({ journals = [], onJournalClick, onCreateClick }) => {
             <div className="w-4 h-1 bg-black rounded"></div>
           </div>
           <i className="absolute inset-0 flex items-center justify-center text-black fa fa-plus fa-2x"></i>
-          <p className="text-black font-lg font-bold text-center">Create new journal</p>
+          <p className="text-black font-lg text-center">Create new journal</p>
         </div>
       </div>
     </div>

@@ -10,9 +10,9 @@ export default function ShowAffirmationModal({ isOpen, onClose, affirmation, onD
     return (
 
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-[#111317] border-[#EBFFF2] border-2 p-4 sm:rounded-lg sm:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-[#F8FBFD] border-[#DCE8F2] border-2 p-4 rounded-3xl sm:p-8 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-end mb-6">
-                    <button onClick={onClose} className="text-[#EBFFF2] hover:text-[#B5446E]">
+                    <button onClick={onClose} className="text-[#1E3A5F] hover:text-[#2C4E73] transition">
                         <i className="fa fa-times fa-xl"></i>
                     </button>
                 </div>
@@ -20,14 +20,14 @@ export default function ShowAffirmationModal({ isOpen, onClose, affirmation, onD
                 <div className="flex flex-col">
                     <img 
                         src={getFileUrl(affirmation.file_path)} 
-                        className="object-contain"
+                        className="object-contain h-96"
                     />
                 </div>
 
-                <div className="flex justify-end space-x-4">
+                <div className="flex justify-end space-x-4 pt-8">
                     <button
                         onClick={() => onDelete(affirmation)}
-                        className="justify-center flex items-center rounded-full border border-transparent bg-[#872328] px-8 py-2 text-md text-[#EBFFF2]"
+                        className="justify-center flex items-center rounded-full border border-transparent bg-[#FF383C] hover:bg-[#991B1B] px-8 py-2 text-md text-white"
                     >
                         Delete
                     </button>
