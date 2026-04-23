@@ -36,14 +36,14 @@ export default function DeleteAffirmationModal({ isOpen, onClose, affirmation, o
                     <button
                         onClick={onClose}
                         disabled={processing}
-                        className="justify-center flex items-center rounded-full border-2 border-[#B5446E] text-[#EBFFF2] px-8 py-2 text-md"
+                        className="px-6 py-2 rounded-full bg-[#872328] text-[#EBFFF2] hover:opacity-90 transition"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={handleDelete}
                         disabled={processing}
-                        className="justify-center flex items-center rounded-full border border-transparent bg-[#872328] px-8 py-2 text-md text-[#EBFFF2]"
+                        className="px-6 py-2 rounded-full bg-[#872328] text-[#EBFFF2] hover:opacity-90 transition"
                     >
                         {processing ? 'Deleting...' : 'Delete Affirmation'}
                     </button>

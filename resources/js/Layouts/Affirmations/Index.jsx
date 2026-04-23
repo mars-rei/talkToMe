@@ -12,28 +12,25 @@ const Affirmations = ({ affirmations = [], onAffirmationClick, onCreateClick }) 
   if (affirmationCount === 0) {
     return (
       <div className="pt-8 grid grid-cols-4 gap-8">
-        <div 
-          onClick={onCreateClick}
-          className="w-full h-52 flex flex-col cursor-pointer group"
-        >
-          <div className="w-1/2 h-6 bg-[#EBFFF2] rounded-t-2xl flex-shrink-0 group-hover:bg-[#B5446E]"></div>
-            <div className="flex-grow bg-[#EBFFF2] rounded-tr-2xl p-6 flex items-center justify-center group-hover:bg-[#B5446E]">
-              <i className="text-[#111317] fa fa-plus fa-2x -mb-6"></i>
-            </div>
-            <div className="h-12 bg-[#EBFFF2] rounded-b-2xl p-4 flex items-center group-hover:bg-[#B5446E]">
-              <p>Add New Affirmation</p>
-            </div>
-        </div>
+        <div
+         onClick={onCreateClick}
+         className="w-52 h-52 bg-white border-2 border-dashed border-[#B5E4C7] rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-[#f8fffb] transition"
+         >
+          <i className="fa fa-camera text-[#111317] text-3xl mb-2"></i>
+          <p className="text-center">Add New Affirmation"</p>
+         </div>
+
+
       </div>
     );
   }
 
   return (
     <div className="pt-8 grid grid-cols-4 gap-8">
+      {/* Jasmine */}
       {affirmations.map((affirmation) => (
-           //Jasmine
-        <div 
-          key={affirmation.id} 
+        <div
+         key={affirmation.id} 
           onClick={() => onAffirmationClick(affirmation)}
           className="w-52 bg-white p-3 shadow-md hover:shadow-lg transition cursor-pointer"
         >
@@ -48,17 +45,19 @@ const Affirmations = ({ affirmations = [], onAffirmationClick, onCreateClick }) 
 
       <div 
         onClick={onCreateClick}
-        className="w-full h-52 flex flex-col cursor-pointer group"
+        className="w-52 h-52 flex items-center justify-center cursor-pointer"
       >
-        <div className="w-1/2 h-6 bg-[#EBFFF2] rounded-t-2xl flex-shrink-0 group-hover:bg-[#B5446E]"></div>
-          <div className="flex-grow bg-[#EBFFF2] rounded-tr-2xl p-6 flex items-center justify-center group-hover:bg-[#B5446E]">
-            <i className="text-[#111317] fa fa-plus fa-2x -mb-6"></i>
+        <div className="relative w-44 h-36 bg-[#CFE9DC] rounded-3xl flex flex-col items-center justify-center hover:scale-105 transition">
+          <div className="absolute -top-6 left-8 w-16 h-6 bg-[#CFE9DC] rounded-t-2xl"></div>
+          <div className="w-20 h-20 bg-[#111317] rounded-full flex items-center justify-center">
+            <div className="w-6 h-6 bg-white rounded-full">
+            </div>
+
           </div>
-          <div className="h-12 bg-[#EBFFF2] rounded-b-2xl p-4 flex items-center group-hover:bg-[#B5446E]">
-            <p>Add New Affirmation</p>
+           <p className="mt-4 text-sm text-center text-[#111317]">Add new affirmation</p>
+        </div>
           </div>
-      </div>
-    </div>
+     </div>
   );
 };
 

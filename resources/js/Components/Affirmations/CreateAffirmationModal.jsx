@@ -55,25 +55,25 @@ export default function CreateAffirmationModal({ isOpen, onClose, onSuccess }) {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-[#111317] border-[#EBFFF2] border-2 p-4 sm:rounded-lg sm:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-2xl p-6 shadow-xl max-w-lg w-full">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="font-fustat-medium text-2xl text-[#EBFFF2]">
+                    <h2 className="font-semibold text-2xl text-gray-800">
                         Add New Affirmation
                     </h2>
                     <button onClick={onClose} className="text-[#EBFFF2] hover:text-[#B5446E]">
-                        <i className="fa fa-times fa-xl"></i>
+                        <i className="fa fa-camera text-gray-400 text-3xl"></i>
                     </button>
                 </div>
 
                 <form onSubmit={submit} className="space-y-4">
                     <div className="space-y-2">
-                        <p className="text-xl text-[#EBFFF2]">
+                        <p className="text-lg text-gray-700">
                             Upload Affirmation
                             <span className="text-[#B5446E]"> *</span>
                         </p>
                         
                         {/* File upload area */}
-                        <div className="border-2 border-dashed border-[#EBFFF2] rounded-md p-6 text-center hover:border-[#B5446E] transition-colors">
+                        <div className="border-2 border-dashed border-[#B5446E] rounded-lg p-6 text-center hover:bg-[#EBFFF2]/20 transition">
                             <input
                                 type="file"
                                 id="file-upload"
@@ -85,11 +85,11 @@ export default function CreateAffirmationModal({ isOpen, onClose, onSuccess }) {
                                 htmlFor="file-upload" 
                                 className="cursor-pointer block"
                             >
-                                <i className="fa fa-cloud-upload-alt fa-3x text-[#EBFFF2] mb-3"></i>
+                                <i className="fa fa-camera text-[#B5446E] text-5xl mb-3"></i>
                                 <p className="text-[#EBFFF2] mb-2">
                                     {data.file ? data.file.name : 'Upload affirmation'}
                                 </p>
-                                <p className="text-[#EBFFF2] text-sm">
+                                <p className="text-gray-500 text-sm mt-2">
                                     JPEG, PNG, or GIF (max 5MB)
                                 </p>
                             </label>
@@ -116,14 +116,14 @@ export default function CreateAffirmationModal({ isOpen, onClose, onSuccess }) {
                         <button
                             type="button"
                             onClick={onClose}
-                            className="justify-center flex items-center rounded-full border-2 border-[#B5446E] text-[#EBFFF2] px-8 py-2 text-md"
+                            className="px-6 py-2 rounded-full border border-[#B5446E] text-[#B5446E] hover:bg-[#B5446E] hover:text-white transition"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             disabled={processing || !data.file}
-                            className="justify-center flex items-center rounded-full border border-transparent bg-[#B5446E] px-8 py-2 text-md text-[#EBFFF2] disabled:opacity-25"
+                            className="px-6 py-2 rounded-full bg-[#B5446E] text-[#EBFFF2] hover:opacity-90 transition"
                         >
                             {processing ? 'Uploading...' : 'Upload Affirmation'}
                         </button>
