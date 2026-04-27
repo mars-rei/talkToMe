@@ -124,7 +124,7 @@ export default function Register() {
                     </form>
                 </div>
                 <div className="h-[calc(100vh-4rem)] w-3/5 overflow-hidden">
-                    <img src="https://group30-public.s3.us-east-1.amazonaws.com/register.jpg" className="object-cover w-full h-full"></img>
+                    <img src="https://group30-s3publicbucket.s3.us-east-1.amazonaws.com/register.jpg" className="object-cover w-full h-full"></img>
                 </div>
             </div>
         </GuestLayout>

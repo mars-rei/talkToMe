@@ -203,21 +203,21 @@ export default function Dashboard() {
                             onClick={() => handleViewChange('journals')}
                             className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-white ${activeView === 'journals' ? 'text-black bg-white font-bold shadow-md' : ''}`}
                         >
-                            <img src="https://group30-public.s3.us-east-1.amazonaws.com/journal.png" alt="Journals" className="w-7 h-7"/>
+                            <img src="https://group30-s3publicbucket.s3.us-east-1.amazonaws.com/journal.png" alt="Journals" className="w-7 h-7"/>
                             Journals
                         </p>
                         <p 
                             onClick={() => handleViewChange('positiveWall')}
                             className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-white ${activeView === 'positiveWall' ? 'text-black bg-white font-bold shadow-md' : ''}`}
                         >
-                            <img src="https://group30-public.s3.us-east-1.amazonaws.com/add.png" alt="Positive Wall" className="w-7 h-7"/>
+                            <img src="https://group30-s3publicbucket.s3.us-east-1.amazonaws.com/add.png" alt="Positive Wall" className="w-7 h-7"/>
                             Positive Wall
                         </p>
                         <p 
                             onClick={() => handleViewChange('growthNotes')}
                             className={`cursor-pointer flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-white ${activeView === 'growthNotes' ? 'text-black bg-white font-bold shadow-md' : ''}`}
                         >
-                            <img src="https://group30-public.s3.us-east-1.amazonaws.com/sticky-note.png" alt="Growth Notes" className="w-7 h-7"/>
+                            <img src="https://group30-s3publicbucket.s3.us-east-1.amazonaws.com/sticky-note.png" alt="Growth Notes" className="w-7 h-7"/>
                             Growth Notes
                         </p>
                     </nav>
